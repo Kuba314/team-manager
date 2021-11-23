@@ -1,0 +1,47 @@
+{
+  "posts": [
+    {
+      "id": "4",
+      "title": "df",
+      "body": "df",
+      "category": "cat2",
+      "author": "Charlie",
+      "dateCreated": "20-02-2020",
+      "timeCreated": "22:12:41"
+    },
+    {
+      "title": "we",
+      "body": "sd",
+      "category": "cat1",
+      "author": "Charlie",
+      "dateCreated": "23. 11. 2021",
+      "id": "gB_mOJl"
+    },
+    {
+      "title": "t ",
+      "body": "g",
+      "category": "cat1",
+      "author": "Charlie",
+      "dateCreated": "23. 11. 2021 22:29:02",
+      "id": "II-hy90"
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "title": "Trénink",
+      "author": "Jakub",
+      "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
+      "dateCreated": "12-02-2020",
+      "category": "cat1"
+    },
+    {
+      "id": "1",
+      "title": "Trénink 2",
+      "author": "Karel",
+      "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
+      "dateCreated": "12-02-2020",
+      "category": "cat1"
+    }
+  ]
+}
