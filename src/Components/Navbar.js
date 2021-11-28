@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Button } from "@mui/material";
+import { AppBar, Toolbar, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 function Navbar() {
@@ -23,6 +23,7 @@ function Navbar() {
           Diskuze
         </Button>
         <Button>Three</Button>
+        <Typography>Logged in as </Typography>
       </Toolbar>
     </AppBar>
   );

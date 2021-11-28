@@ -5,6 +5,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import RegisterPage from "./Pages/RegisterPage";
+import React from 'react';
+import {useState, useMemo} from 'react';
+import LoginPage from "./Pages/LoginPage";
+
 
 const theme = createTheme({
   palette: {
@@ -25,20 +30,25 @@ const useStyles = makeStyles({
 });
 
 function App() {
+  const [logged, setLogged] = useState(false);
   const classes = useStyles();
+
   return (
-    <div className={classes.cont}>
+      <div className={classes.cont}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Layout>
-            <Routes>
+            <Routes>   
               <Route path="discussion" element={<DiscussionPage />} />
               <Route path="attendance" element={<AttendancePage />} />
-            </Routes>
+              <Route path="register" element={<RegisterPage />}/>
+              <Route path="login" element={<LoginPage logged = {logged} setLogged={setLogged}/>}/>                 
+            </Routes> 
           </Layout>
         </BrowserRouter>
       </ThemeProvider>
-    </div>
+      </div>
+
   );
 }
 
