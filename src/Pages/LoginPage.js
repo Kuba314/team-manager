@@ -1,5 +1,5 @@
 import React from 'react'
-import { useContext, useState } from 'react';
+import {  useState } from 'react';
 import {TextField, Button} from "@mui/material";
 
 function LoginPage({ setLogged, logged}) {
@@ -25,7 +25,7 @@ function LoginPage({ setLogged, logged}) {
           console.log(error)
         });;
   }
-{
+
   if(logged){
     return (
       <div>Logged in {email}</div>
@@ -57,6 +57,6 @@ function LoginPage({ setLogged, logged}) {
     )
   }
 }
-}
+
 
 export default LoginPage

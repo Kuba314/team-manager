@@ -1,6 +1,6 @@
 import { Grid, Button } from "@mui/material";
 import React from "react";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState } from "react";
 import Post from "../Components/Post";
 import { makeStyles } from "@mui/styles";
 import AddDialog from "../Components/AddDialog";
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "0.5%",
+    marginTop: "1%",
   },
 });
 
@@ -29,7 +29,7 @@ function DiscussionPage({ ondiscussion }) {
   
   const classes = useStyles(); //This enables custom css overrides
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -74,10 +74,11 @@ function DiscussionPage({ ondiscussion }) {
   return (
     <div>
      
-      <AddDialog open={open} handleClose={handleClose} />;
+      <AddDialog open={open} handleClose={handleClose} />
       {/*Just a wrapper div as component can only return one element*/}
       <div className={classes.addButton}>
-        <Button color="primary" variant="contained" onClick={handleClickOpen}>
+        <Button variant="outlined"
+            color="primary" onClick={handleClickOpen}>
           Přidat příspěvek
         </Button>
       </div>

@@ -7,9 +7,21 @@ import {
   Button,
   Typography,
   Avatar,
+  Box
 } from "@mui/material";
+import {makeStyles} from "@mui/styles"
 
+
+const useStyles = makeStyles({
+  rightAlign: {
+    marginLeft : "auto",
+  },
+  leftAlign: {
+    marginRight : "auto",
+  }
+});
 function Post({ post, handleDelete }) {
+  const classes = useStyles();
   return (
     <Card align="center">
       <CardHeader
@@ -22,18 +34,23 @@ function Post({ post, handleDelete }) {
         <Typography gutterBottom variant="h5" component="div">
           {post.body}
         </Typography>
+        
+      </CardContent>
+      <CardActions>
+        <Box className={classes.leftAlign}>
+        <Button color="primary" variant="text" size="small" onClick={() => handleDelete(post.id)}>
+          Delete
+        </Button>
+        <Button color="primary" variant="text" size="small">Komentáře</Button>
+        </Box>
+        <Box className={classes.rightAlign}>
         <Typography variant="body2" color="text.secondary">
           {post.dateCreated}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {post.timeCreated}
         </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" onClick={() => handleDelete(post.id)}>
-          Delete
-        </Button>
-        <Button size="small">Komentáře</Button>
+        </Box>
       </CardActions>
     </Card>
   );

@@ -7,6 +7,22 @@
       "author": "Charlie",
       "dateCreated": "27. 11. 2021 17:25:57",
       "id": 2
+    },
+    {
+      "title": "",
+      "body": "",
+      "category": "cat1",
+      "author": "Charlie",
+      "dateCreated": "28. 11. 2021 16:13:05",
+      "id": 3
+    },
+    {
+      "title": "Titulek",
+      "body": "Lorem ipsum\ndfkdj\n",
+      "category": "cat1",
+      "author": "Charlie",
+      "dateCreated": "28. 11. 2021 16:47:33",
+      "id": 4
     }
   ],
   "events": [
