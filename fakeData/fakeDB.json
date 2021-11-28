@@ -1,29 +1,12 @@
 {
   "posts": [
     {
-      "id": "4",
-      "title": "df",
-      "body": "df",
-      "category": "cat2",
-      "author": "Charlie",
-      "dateCreated": "20-02-2020",
-      "timeCreated": "22:12:41"
-    },
-    {
-      "title": "we",
-      "body": "sd",
+      "title": "ds",
+      "body": "ds",
       "category": "cat1",
       "author": "Charlie",
-      "dateCreated": "23. 11. 2021",
-      "id": "gB_mOJl"
-    },
-    {
-      "title": "t ",
-      "body": "g",
-      "category": "cat1",
-      "author": "Charlie",
-      "dateCreated": "23. 11. 2021 22:29:02",
-      "id": "II-hy90"
+      "dateCreated": "27. 11. 2021 17:25:57",
+      "id": 2
     }
   ],
   "events": [
@@ -42,6 +25,23 @@
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
       "dateCreated": "12-02-2020",
       "category": "cat1"
+    }
+  ],
+  "users": [
+    {
+      "email": "sdsd@sez.cz",
+      "password": "$2a$10$X/VHiBiHcEjvsKaGQmSUhekXrJZdX/Oli0rlWMrRuJNBqCP537b4C",
+      "id": 1
+    },
+    {
+      "email": "fd@seznam.cz",
+      "password": "$2a$10$pGGxJE.yJL7leqk2o65ta.oZetAFMp9tFridbF9A0cifT7bYhIlTq",
+      "id": 2
+    },
+    {
+      "email": "123@123.cz",
+      "password": "$2a$10$2aR7ORmKad18Ncd2wkTxke8TNnP8ftrnKJj7FFI4CUUOO9asxzfZ2",
+      "id": 3
     }
   ]
 }

@@ -1,10 +1,12 @@
 import { Grid, Button } from "@mui/material";
 import React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import Post from "../Components/Post";
 import { makeStyles } from "@mui/styles";
 import AddDialog from "../Components/AddDialog";
 import Categories from "../Components/Categories";
+import useInterval from "../Helpers/useInterval";
+
 
 const useStyles = makeStyles({
   cont: {
@@ -22,7 +24,9 @@ const useStyles = makeStyles({
     marginTop: "0.5%",
   },
 });
+
 function DiscussionPage({ ondiscussion }) {
+  
   const classes = useStyles(); //This enables custom css overrides
 
   const [open, setOpen] = React.useState(false);
@@ -35,23 +39,7 @@ function DiscussionPage({ ondiscussion }) {
     fetchData();
     setOpen(false);
   };
-  const useInterval = (callback, delay) => {
-    const savedCallback = useRef();
-
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    useEffect(() => {
-      const tick = () => {
-        savedCallback.current();
-      };
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  };
+ 
 
   const [posts, setPosts] = useState([]); //Fetches the posts, temporarily from fakeDB
   const fetchData = () => {
@@ -76,13 +64,16 @@ function DiscussionPage({ ondiscussion }) {
   };
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:3000/posts/" + id, { method: "DELETE" });
+    await fetch("http://localhost:3000/posts/" + id, { method: "DELETE",
+    headers: { "Content-type": "application/json" }});
     const newPosts = posts.filter((post) => post.id !== id);
     setPosts(newPosts);
   };
 
+  
   return (
     <div>
+     
       <AddDialog open={open} handleClose={handleClose} />;
       {/*Just a wrapper div as component can only return one element*/}
       <div className={classes.addButton}>
@@ -101,6 +92,7 @@ function DiscussionPage({ ondiscussion }) {
           {/*Filters posts based on category, then creates a post component from them*/}
           {posts
             .filter((post) => post.category === categories[selectedCategory])
+            .reverse()
             .map((post) => (
               <Grid item key={post.id} xs={12}>
                 <Post post={post} handleDelete={handleDelete}></Post>
