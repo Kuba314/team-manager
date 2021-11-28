@@ -1,0 +1,35 @@
+user:
+string username
+string password_hash
+string phone
+bool sex
+
+event:
+string title
+string body
+datetime datetime
+string location
+
+attendance:
+ref user user
+ref event event
+
+post:
+ref user author
+datetime created
+enum category
+string title
+string body
+
+comment:
+ref user author
+ref post post
+string text
+
+poll:
+ref user author
+string prompt
+
+poll_vote:
+ref user voter
+ref poll poll
