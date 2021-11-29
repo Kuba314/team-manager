@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   TextField,
@@ -18,7 +18,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 const useStyles = makeStyles({
   postText: {
-    fontSize: 20,
+    marginTop: "5px",
+  },
+  categories: {
+    marginTop: "5px",
   },
 });
 
@@ -43,6 +46,7 @@ function AddDialog({ open, handleClose }) {
   };
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
   const handleSubmit = () => {
     fetch("http://localhost:3000/posts", {
       method: "POST",
@@ -69,22 +73,21 @@ function AddDialog({ open, handleClose }) {
             label="Titulek"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
           />
           <TextField
             onChange={(e) => setBody(e.target.value)}
-            InputLabelProps={{ style: { fontSize: 20 } }}
-            inputProps={{ style: { fontSize: 20 } }}
             className={classes.postText}
+            size="large"
             rows={6}
             id="title"
             multiline
             label="Text příspěvku"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
           ></TextField>
-          <FormControl component="fieldset">
+          <FormControl className={classes.categories} component="fieldset">
             <FormLabel component="legend">Kategorie</FormLabel>
             <RadioGroup
               row
@@ -107,8 +110,12 @@ function AddDialog({ open, handleClose }) {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Zrušit</Button>
-          <Button onClick={handleSubmit}>Přidat</Button>
+          <Button size="large" onClick={handleClose}>
+            Zrušit
+          </Button>
+          <Button size="large" onClick={handleSubmit}>
+            Přidat
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

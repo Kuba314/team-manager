@@ -3,10 +3,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Post from "../Components/Post";
 import { makeStyles } from "@mui/styles";
-import AddDialog from "../Components/AddDialog";
+import AddDialogPost from "../Components/AddDialogPost";
 import Categories from "../Components/Categories";
 import useInterval from "../Helpers/useInterval";
-
 
 const useStyles = makeStyles({
   cont: {
@@ -26,7 +25,6 @@ const useStyles = makeStyles({
 });
 
 function DiscussionPage({ ondiscussion }) {
-  
   const classes = useStyles(); //This enables custom css overrides
 
   const [open, setOpen] = useState(false);
@@ -39,7 +37,6 @@ function DiscussionPage({ ondiscussion }) {
     fetchData();
     setOpen(false);
   };
- 
 
   const [posts, setPosts] = useState([]); //Fetches the posts, temporarily from fakeDB
   const fetchData = () => {
@@ -64,21 +61,20 @@ function DiscussionPage({ ondiscussion }) {
   };
 
   const handleDelete = async (id) => {
-    await fetch("http://localhost:3000/posts/" + id, { method: "DELETE",
-    headers: { "Content-type": "application/json" }});
+    await fetch("http://localhost:3000/posts/" + id, {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
+    });
     const newPosts = posts.filter((post) => post.id !== id);
     setPosts(newPosts);
   };
 
-  
   return (
     <div>
-     
-      <AddDialog open={open} handleClose={handleClose} />
+      <AddDialogPost open={open} handleClose={handleClose} />
       {/*Just a wrapper div as component can only return one element*/}
       <div className={classes.addButton}>
-        <Button variant="outlined"
-            color="primary" onClick={handleClickOpen}>
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Přidat příspěvek
         </Button>
       </div>
