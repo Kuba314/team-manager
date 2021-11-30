@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import Event from "../Components/Event";
 import { makeStyles } from "@mui/styles";
+import Categories from "../Components/Categories";
 
 const useStyles = makeStyles({
   tabBox: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles({
   cont: {
     marginLeft: "10%",
     marginRight: "10%",
+    marginTop: "1%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -20,7 +22,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "0.5%",
+    marginTop: "1%",
   },
 });
 
@@ -33,15 +35,23 @@ function AttendancePage() {
       .then((data) => setEvents(data));
   }, []);
   return (
-    <div className={classes.cont}>
-      <Grid container spacing={3}>
-        {/*Filters eventss based on category, then creates a events component from them*/}
-        {events.map((event) => (
-          <Grid item key={event.id} xs={12} md={6} lg={4}>
-            <Event event={event}></Event>
-          </Grid>
-        ))}
-      </Grid>
+    <div>
+      <div className={classes.addButton}>
+        <Button variant="outlined" color="primary">
+          Přidat příspěvek
+        </Button>
+      </div>
+      <Categories></Categories>
+      <div className={classes.cont}>
+        <Grid container spacing={3}>
+          {/*Filters eventss based on category, then creates a events component from them*/}
+          {events.map((event) => (
+            <Grid item key={event.id} xs={12} md={6} lg={4}>
+              <Event event={event}></Event>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
     </div>
   );
 }

@@ -9,8 +9,21 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-function AddDialogComment({ open, handleClose }) {
+function AddDialogComment({ postId, open, handleClose }) {
+  let author = "Jakub";
   const [body, setBody] = useState("");
+  const handleSubmit = () => {
+    fetch("http://localhost:3000/comments", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        author,
+        body,
+        postId,
+      }),
+    }).then(handleClose());
+  };
+
   return (
     <div>
       <div>

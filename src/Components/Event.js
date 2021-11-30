@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import PlaceIcon from "@mui/icons-material/Place";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import {
   Card,
   CardHeader,
@@ -36,11 +38,15 @@ function Event({ event }) {
         <CardContent>
           <List>
             <ListItem disablePadding>
-              <ListItemIcon></ListItemIcon>
+              <ListItemIcon>
+                <PlaceIcon />
+              </ListItemIcon>
               <ListItemText primary="Místo" secondary="Hřiště za parkem" />
             </ListItem>
             <ListItem disablePadding>
-              <ListItemIcon></ListItemIcon>
+              <ListItemIcon>
+                <AccessTimeIcon />
+              </ListItemIcon>
               <ListItemText primary="Čas" secondary="30. 11. 2021 14:16:55" />
             </ListItem>
           </List>
