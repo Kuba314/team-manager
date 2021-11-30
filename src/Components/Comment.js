@@ -8,6 +8,7 @@ const useStyles = makeStyles({
   wrapper: {
     backgroundColor: "#404040",
     marginTop: "10px",
+    display: "inline-block",
     padding: "2px 10px",
   },
   avatar: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Comment({ dummyText }) {
+function Comment({ comment }) {
   const classes = useStyles();
   return (
     <div align="left">
@@ -36,7 +37,7 @@ function Comment({ dummyText }) {
             <Typography variant="h6" fontWeight="bold">
               Author
             </Typography>
-            <Typography color="#EFEFEF">{dummyText}</Typography>
+            <Typography color="#EFEFEF">{comment.body}</Typography>
           </div>
         </div>
       </Paper>

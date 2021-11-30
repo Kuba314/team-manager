@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Comment from "./Comment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useInterval from "../Helpers/useInterval";
 import AddDialogComment from "./AddDialogComment";
 
 const useStyles = makeStyles({
@@ -25,6 +26,7 @@ const useStyles = makeStyles({
 });
 
 function Post({ post, handleDelete }) {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -40,11 +42,23 @@ function Post({ post, handleDelete }) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const classes = useStyles();
 
+  const [comments, setComments] = useState([]); //Fetches the posts, temporarily from fakeDB
+  const fetchData = () => {
+    fetch("http://localhost:3000/comments")
+      .then((res) => res.json())
+      .then((data) => setComments(data));
+  };
+  // useEffect(fetchData, []);
+
+  //useInterval(fetchData, 5000);
   return (
     <div>
-      <AddDialogComment open={open} handleClose={handleClose} />
+      <AddDialogComment
+        postId={post.id}
+        open={open}
+        handleClose={handleClose}
+      />
       <Card align="center">
         <CardHeader
           title={post.title}
@@ -92,9 +106,12 @@ function Post({ post, handleDelete }) {
           <Button variant="outlined" onClick={handleClickOpen}>
             Přidat komentář
           </Button>
-          <Comment dummyText="Toto je příklad komentáře k příspěvku"></Comment>
-          <Comment dummyText="Toto je příklad komentáře k příspěvku, který je delší než jiný"></Comment>
-          <Comment dummyText="Toto je příklad komentáře k příspěvku"></Comment>
+          {comments
+            .filter((comment) => comment.postId === post.id)
+            .reverse()
+            .map((comment) => (
+              <Comment comment={comment}></Comment>
+            ))}
         </Collapse>
       </Card>
     </div>
