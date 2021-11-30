@@ -1,14 +1,29 @@
 import React from "react";
+import { useState } from "react";
 import {
   Card,
   CardHeader,
   CardContent,
   CardActions,
   Button,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemButton,
+  ListItemText,
   Typography,
   Avatar,
+  Collapse,
+  Grid,
 } from "@mui/material";
+import AttendanceAvatar from "./AttendanceAvatar";
+
 function Event({ event }) {
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   return (
     <div>
       <Card align="center">
@@ -19,17 +34,45 @@ function Event({ event }) {
         />
 
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {event.body}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {event.dateCreated}
-          </Typography>
+          <List>
+            <ListItem disablePadding>
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="Místo" secondary="Hřiště za parkem" />
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="Čas" secondary="30. 11. 2021 14:16:55" />
+            </ListItem>
+          </List>
         </CardContent>
         <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
+          <Button size="large" expand={expanded} onClick={handleExpandClick}>
+            Kdo přijde
+          </Button>
         </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Grid container spacing={1.5}>
+            <Grid item xs={3}>
+              <AttendanceAvatar></AttendanceAvatar>
+            </Grid>
+            <Grid item xs={3}>
+              <AttendanceAvatar></AttendanceAvatar>
+            </Grid>
+            <Grid item xs={3}>
+              <AttendanceAvatar></AttendanceAvatar>
+            </Grid>
+            <Grid item xs={3}>
+              <AttendanceAvatar></AttendanceAvatar>
+            </Grid>
+
+            <Grid item xs={3}>
+              <AttendanceAvatar></AttendanceAvatar>
+            </Grid>
+            <Grid item xs={3}>
+              <AttendanceAvatar></AttendanceAvatar>
+            </Grid>
+          </Grid>
+        </Collapse>
       </Card>
     </div>
   );

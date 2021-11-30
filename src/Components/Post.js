@@ -92,9 +92,9 @@ function Post({ post, handleDelete }) {
           <Button variant="outlined" onClick={handleClickOpen}>
             Přidat komentář
           </Button>
-          <Comment></Comment>
-          <Comment></Comment>
-          <Comment></Comment>
+          <Comment dummyText="Toto je příklad komentáře k příspěvku"></Comment>
+          <Comment dummyText="Toto je příklad komentáře k příspěvku, který je delší než jiný"></Comment>
+          <Comment dummyText="Toto je příklad komentáře k příspěvku"></Comment>
         </Collapse>
       </Card>
     </div>
