@@ -13,6 +13,7 @@ import { makeStyles } from "@mui/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import dateCreator from "../Helpers/dateCreator";
 
 import DialogTitle from "@mui/material/DialogTitle";
 
@@ -26,17 +27,7 @@ const useStyles = makeStyles({
 });
 
 function AddDialog({ open, handleClose }) {
-  var date = new Date();
-
-  let dateCreated = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
-    date.getHours(),
-    date.getMinutes(),
-    date.getSeconds()
-  ).toLocaleString();
-
+  let dateCreated = dateCreator();
   let author = "Charlie";
   const classes = useStyles();
   const [category, setCategory] = useState("cat1");
