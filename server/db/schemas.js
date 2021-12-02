@@ -8,7 +8,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/testing');
 
 const userSchema = new Schema({
     name: String,
-    password: String,
+    password_hash: String,
     phone: String,
     sex: {
         type: String,
