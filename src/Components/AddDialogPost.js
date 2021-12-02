@@ -19,7 +19,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 const useStyles = makeStyles({
   postText: {
-    marginTop: "5px",
+    paddingTop: "10px",
   },
   categories: {
     marginTop: "5px",
@@ -37,8 +37,23 @@ function AddDialog({ open, handleClose }) {
   };
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [errTitle, setErrTitle] = useState(false);
+  const [errBody, setErrBody] = useState(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrTitle(false);
+    setErrBody(false);
 
-  const handleSubmit = () => {
+    if (body === "") {
+      setErrBody(true);
+    }
+    if (title === "") {
+      setErrTitle(true);
+    }
+
+    if (title === "" || body === "") {
+      return;
+    }
     fetch("http://localhost:3000/posts", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -58,7 +73,9 @@ function AddDialog({ open, handleClose }) {
         <DialogContent>
           <TextField
             onChange={(e) => setTitle(e.target.value)}
+            error={errTitle}
             autoFocus
+            required
             margin="dense"
             id="title"
             label="Titulek"
@@ -68,6 +85,8 @@ function AddDialog({ open, handleClose }) {
           />
           <TextField
             onChange={(e) => setBody(e.target.value)}
+            error={errBody}
+            required
             className={classes.postText}
             size="large"
             rows={6}
@@ -82,6 +101,7 @@ function AddDialog({ open, handleClose }) {
             <FormLabel component="legend">Kategorie</FormLabel>
             <RadioGroup
               row
+              defaultValue="cat1"
               aria-label="Kategorie"
               name="controlled-radio-buttons-group"
               value={value}

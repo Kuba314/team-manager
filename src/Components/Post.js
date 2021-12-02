@@ -15,6 +15,7 @@ import Comment from "./Comment";
 import { useState, useEffect } from "react";
 import useInterval from "../Helpers/useInterval";
 import AddDialogComment from "./AddDialogComment";
+import PostAvatar from "./PostAvatar";
 
 const useStyles = makeStyles({
   rightAlign: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles({
   },
   leftAlign: {
     marginRight: "auto",
+  },
+  collapse: {
+    marginBottom: "8px",
   },
 });
 
@@ -63,7 +67,7 @@ function Post({ post, handleDelete }) {
         <CardHeader
           title={post.title}
           titleTypographyProps={{ variant: "h5" }}
-          avatar={<Avatar>{post.author[0]}</Avatar>}
+          avatar={<PostAvatar author={post.author} />}
         />
 
         <CardContent>
@@ -82,9 +86,7 @@ function Post({ post, handleDelete }) {
               Delete
             </Button>
             <Button
-              expand={expanded}
               onClick={handleExpandClick}
-              aria-expanded={expanded}
               aria-label="show more"
               color="primary"
               variant="text"
@@ -102,7 +104,12 @@ function Post({ post, handleDelete }) {
             </Typography>
           </Box>
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Collapse
+          className={classes.collapse}
+          in={expanded}
+          timeout="auto"
+          unmountOnExit
+        >
           <Button variant="outlined" onClick={handleClickOpen}>
             Přidat komentář
           </Button>

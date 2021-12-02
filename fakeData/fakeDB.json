@@ -1,33 +1,17 @@
 {
   "posts": [
     {
-      "title": "ds",
-      "body": "ds",
+      "title": "sf",
+      "body": "fs",
       "category": "cat1",
       "author": "Charlie",
-      "dateCreated": "27. 11. 2021 17:25:57",
-      "id": 2
-    },
-    {
-      "title": "",
-      "body": "",
-      "category": "cat1",
-      "author": "Charlie",
-      "dateCreated": "28. 11. 2021 16:13:05",
-      "id": 3
-    },
-    {
-      "title": "Titulek",
-      "body": "Lorem ipsum\ndfkdj\n",
-      "category": "cat1",
-      "author": "Charlie",
-      "dateCreated": "28. 11. 2021 16:47:33",
-      "id": 4
+      "dateCreated": "2. 12. 2021 22:00:32",
+      "id": 1
     }
   ],
   "events": [
     {
-      "id": "1",
+      "id": 1,
       "title": "Trénink",
       "author": "Jakub",
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
@@ -35,12 +19,36 @@
       "category": "cat1"
     },
     {
-      "id": "1",
+      "id": 2,
       "title": "Trénink 2",
       "author": "Karel",
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
       "dateCreated": "12-02-2020",
       "category": "cat1"
+    },
+    {
+      "id": 3,
+      "title": "Trénink 2",
+      "author": "Karel",
+      "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
+      "dateCreated": "12-02-2020",
+      "category": "cat1"
+    },
+    {
+      "id": 4,
+      "title": "Trénink 2",
+      "author": "Karel",
+      "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
+      "dateCreated": "12-02-2020",
+      "category": "cat2"
+    },
+    {
+      "id": 5,
+      "title": "Trénink 2",
+      "author": "Karel",
+      "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
+      "dateCreated": "12-02-2020",
+      "category": "cat2"
     }
   ],
   "users": [
@@ -58,6 +66,26 @@
       "email": "123@123.cz",
       "password": "$2a$10$2aR7ORmKad18Ncd2wkTxke8TNnP8ftrnKJj7FFI4CUUOO9asxzfZ2",
       "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 3,
+      "author": "Karel",
+      "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
+      "dateCreated": "12-02-2020"
+    },
+    {
+      "author": "Jakub",
+      "body": "sf",
+      "postId": 1,
+      "id": 4
+    },
+    {
+      "author": "Jakub",
+      "body": "sadflkajsdfkjsdfksjdfksjdfkdsjfsdfsfds",
+      "postId": 1,
+      "id": 5
     }
   ]
 }
