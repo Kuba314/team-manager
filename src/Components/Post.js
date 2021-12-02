@@ -49,9 +49,9 @@ function Post({ post, handleDelete }) {
       .then((res) => res.json())
       .then((data) => setComments(data));
   };
-  // useEffect(fetchData, []);
+  useEffect(fetchData, []);
 
-  //useInterval(fetchData, 5000);
+  useInterval(fetchData, 5000);
   return (
     <div>
       <AddDialogComment

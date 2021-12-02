@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
   },
 });
-function Categories({ handleChange, selectedCategory }) {
+function EventCategories({ handleChange, selectedCategory }) {
   const classes = useStyles();
   return (
     <div>
@@ -26,4 +26,4 @@ function Categories({ handleChange, selectedCategory }) {
   );
 }
 
-export default Categories;
+export default EventCategories;
