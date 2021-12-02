@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-function AddDialog({ open, handleClose }) {
+function AddDialogEvent({ open, handleClose }) {
   let dateCreated = dateCreator();
   let author = "Charlie";
   const classes = useStyles();
@@ -39,7 +39,7 @@ function AddDialog({ open, handleClose }) {
   const [body, setBody] = useState("");
 
   const handleSubmit = () => {
-    fetch("http://localhost:3000/posts", {
+    fetch("http://localhost:3000/events", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -55,7 +55,7 @@ function AddDialog({ open, handleClose }) {
     <div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Nový příspěvek</DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.wrapper}>
           <TextField
             onChange={(e) => setTitle(e.target.value)}
             autoFocus
@@ -104,13 +104,11 @@ function AddDialog({ open, handleClose }) {
           <Button size="large" onClick={handleClose}>
             Zrušit
           </Button>
-          <Button size="large" onClick={handleSubmit}>
-            Přidat
-          </Button>
+          <Button size="large">Přidat</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 }
 
-export default AddDialog;
+export default AddDialogEvent;

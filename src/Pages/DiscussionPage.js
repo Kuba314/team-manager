@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Post from "../Components/Post";
 import { makeStyles } from "@mui/styles";
 import AddDialogPost from "../Components/AddDialogPost";
-import Categories from "../Components/Categories";
+import PostCategories from "../Components/PostCategories";
 import useInterval from "../Helpers/useInterval";
 
 const useStyles = makeStyles({
@@ -78,7 +78,7 @@ function DiscussionPage({ ondiscussion }) {
           Přidat příspěvek
         </Button>
       </div>
-      <Categories
+      <PostCategories
         handleChange={handleChange}
         setValue={setValue}
         selectedCategory={selectedCategory}

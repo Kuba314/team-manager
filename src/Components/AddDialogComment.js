@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
+import { makeStyles } from "@mui/styles";
 
 function AddDialogComment({ postId, open, handleClose }) {
   let author = "Jakub";
@@ -23,33 +24,33 @@ function AddDialogComment({ postId, open, handleClose }) {
       }),
     }).then(handleClose());
   };
-
   return (
     <div>
-      <div>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Nový příspěvek</DialogTitle>
-          <DialogContent>
-            <TextField
-              onChange={(e) => setBody(e.target.value)}
-              size="large"
-              rows={6}
-              id="title"
-              multiline
-              label="Text příspěvku"
-              type="text"
-              fullWidth
-              variant="outlined"
-            ></TextField>
-          </DialogContent>
-          <DialogActions>
-            <Button size="large" onClick={handleClose}>
-              Zrušit
-            </Button>
-            <Button size="large">Přidat</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog fullWidth maxWidth="sm" open={open} onClose={handleClose}>
+        <DialogTitle>Nový komentář</DialogTitle>
+        <DialogContent>
+          <TextField
+            onChange={(e) => setBody(e.target.value)}
+            size="large"
+            rows={6}
+            id="title"
+            multiline
+            label="Text komentáře"
+            type="text"
+            fullWidth
+            minWidth="400px"
+            variant="outlined"
+          ></TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button size="large" onClick={handleClose}>
+            Zrušit
+          </Button>
+          <Button size="large" onClick={handleSubmit}>
+            Přidat
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
