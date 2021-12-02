@@ -1,8 +1,8 @@
-import { Card, Paper, CardContent, Typography, Avatar } from "@mui/material";
+import { Paper, Typography, Avatar, IconButton } from "@mui/material";
 import React from "react";
 import { makeStyles } from "@mui/styles";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AddDialogComment from "./AddDialogComment";
-import { Box } from "@mui/system";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -22,13 +22,21 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
   },
+  dltBtn: {
+    marginLeft: "5px",
+    borderRadius: "0px",
+  },
 });
 
 function Comment({ comment }) {
   const classes = useStyles();
   return (
     <div align="left">
-      <Paper className={classes.wrapper} variant="outlined">
+      <Paper
+        className={classes.wrapper}
+        style={{ backgroundColor: "#404040" }}
+        variant="outlined"
+      >
         <div className={classes.avatar}>
           <div>
             <Avatar>A</Avatar>
@@ -39,6 +47,9 @@ function Comment({ comment }) {
             </Typography>
             <Typography color="#EFEFEF">{comment.body}</Typography>
           </div>
+          <IconButton className={classes.dltBtn}>
+            <DeleteIcon />
+          </IconButton>
         </div>
       </Paper>
     </div>

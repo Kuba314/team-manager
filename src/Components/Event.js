@@ -18,6 +18,7 @@ import {
   Avatar,
   Collapse,
   Grid,
+  Box,
 } from "@mui/material";
 import AttendanceAvatar from "./AttendanceAvatar";
 import CloseIcon from "@mui/icons-material/Close";
@@ -36,11 +37,15 @@ const useStyles = makeStyles({
       backgroundColor: "#67cc62",
     },
   },
+  leftAlign: {
+    marginRight: "auto",
+  },
+  rightAlign: {
+    marginLeft: "auto",
+  },
 });
 
 function Event({ event }) {
-  let selred = "#eb5e5e";
-  let red = "#856565";
   let selgreen = "#67cc62";
   let green = "#6a8565";
   let gray = "#8e918f";
@@ -51,7 +56,6 @@ function Event({ event }) {
     setExpanded(!expanded);
   };
   const [colorCome, setColor] = useState("#6a8565");
-  const [colorNotCome, setNotColor] = useState("#856565");
   return (
     <div>
       <Card align="center">
@@ -74,41 +78,27 @@ function Event({ event }) {
           </List>
         </CardContent>
         <CardActions>
-          <Button size="large" expand={expanded} onClick={handleExpandClick}>
-            Kdo přijde
-          </Button>
-          <Button
-            size="large"
-            variant="contained"
-            style={{ backgroundColor: colorCome }}
-            onClick={() => {
-              if (colorCome === selgreen) {
-                setNotColor(red);
-                setColor(green);
-                return;
-              }
-              setColor(selgreen);
-              setNotColor(gray);
-            }}
-          >
-            <DoneIcon></DoneIcon>Přijdu
-          </Button>
-          <Button
-            size="large"
-            variant="contained"
-            style={{ backgroundColor: colorNotCome }}
-            onClick={() => {
-              if (colorNotCome === selred) {
-                setNotColor(red);
-                setColor(green);
-                return;
-              }
-              setNotColor(selred);
-              setColor(gray);
-            }}
-          >
-            <CloseIcon></CloseIcon>Nepřijdu
-          </Button>
+          <Box className={classes.leftAlign}>
+            <Button size="large" expand={expanded} onClick={handleExpandClick}>
+              Kdo přijde
+            </Button>
+          </Box>
+          <Box className={classes.rightAlign}>
+            <Button
+              size="large"
+              variant="contained"
+              style={{ backgroundColor: colorCome }}
+              onClick={() => {
+                if (colorCome === selgreen) {
+                  setColor(green);
+                  return;
+                }
+                setColor(selgreen);
+              }}
+            >
+              <DoneIcon></DoneIcon>Přijdu
+            </Button>
+          </Box>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Grid container spacing={1.5}>
