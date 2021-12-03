@@ -7,6 +7,21 @@
       "author": "Charlie",
       "dateCreated": "2. 12. 2021 22:00:32",
       "id": 1
+    },
+    {
+      "title": "Titulek",
+      "body": "fdfdfdf",
+      "category": "cat1",
+      "author": "Charlie",
+      "dateCreated": "3. 12. 2021 0:54:33",
+      "id": 2
+    },
+    {
+      "title": "",
+      "body": "",
+      "author": "Charlie",
+      "dateCreated": "3. 12. 2021 14:18:50",
+      "id": 3
     }
   ],
   "events": [
@@ -16,7 +31,7 @@
       "author": "Jakub",
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
       "dateCreated": "12-02-2020",
-      "category": "cat1"
+      "category": "practice"
     },
     {
       "id": 2,
@@ -24,7 +39,7 @@
       "author": "Karel",
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
       "dateCreated": "12-02-2020",
-      "category": "cat1"
+      "category": "practice"
     },
     {
       "id": 3,
@@ -32,7 +47,7 @@
       "author": "Karel",
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
       "dateCreated": "12-02-2020",
-      "category": "cat1"
+      "category": "practice"
     },
     {
       "id": 4,
@@ -40,7 +55,7 @@
       "author": "Karel",
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
       "dateCreated": "12-02-2020",
-      "category": "cat2"
+      "category": "tournament"
     },
     {
       "id": 5,
@@ -48,7 +63,7 @@
       "author": "Karel",
       "body": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut tempus purus at lorem. Fusce wisi. Maecenas libero. Aliquam erat volutpat.",
       "dateCreated": "12-02-2020",
-      "category": "cat2"
+      "category": "tournament"
     }
   ],
   "users": [
