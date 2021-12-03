@@ -1,7 +1,7 @@
 import { Grid, Button } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
-import Post from "../Components/Post";
+import Poll from "../Components/Poll";
 import { makeStyles } from "@mui/styles";
 import AddDialogPoll from "../Components/AddDialogPoll";
 import useInterval from "../Helpers/useInterval";
@@ -37,7 +37,7 @@ function PollPage() {
     setOpen(false);
   };
 
-  const [posts, setPosts] = useState([]); 
+  const [posts, setPosts] = useState([]);
   const fetchData = () => {
     fetch("http://localhost:3000/posts")
       .then((res) => res.json())
@@ -52,7 +52,6 @@ function PollPage() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
- 
 
   const handleDelete = async (id) => {
     await fetch("http://localhost:3000/posts/" + id, {
@@ -66,15 +65,27 @@ function PollPage() {
   return (
     <div>
       <AddDialogPoll open={open} handleClose={handleClose} />
-      {}
       <div className={classes.addButton}>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Přidat anketu
         </Button>
+      </div>
+      <div className={classes.cont}>
+        {/*Container for posts*/}
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Poll></Poll>
+          </Grid>
+          <Grid item xs={12}>
+            <Poll></Poll>
+          </Grid>
+          <Grid item xs={12}>
+            <Poll></Poll>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
 }
 
 export default PollPage;
-    
