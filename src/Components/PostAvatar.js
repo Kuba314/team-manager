@@ -4,10 +4,12 @@ import { Avatar, Typography } from "@mui/material";
 function PostAvatar({ author }) {
   return (
     <div
-      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      style={{ display: "flex", flexDirection: "column", alignItems: "left" }}
     >
       <Avatar>{author[0]}</Avatar>
-      <Typography style={{ marginLeft: "15px" }}>{author}</Typography>
+      <Typography style={{ marginTop: "5px", fontStyle: "italic" }}>
+        {author}
+      </Typography>
     </div>
   );
 }

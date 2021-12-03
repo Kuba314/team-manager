@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Grid, Button } from "@mui/material";
 import Event from "../Components/Event";
 import { makeStyles } from "@mui/styles";
-import EventCategories from "../Components/PostCategories";
+import EventCategories from "../Components/EventCategories";
 import AddDialogEvent from "../Components/AddDialogEvent";
 
 const useStyles = makeStyles({
@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     marginTop: "1%",
+    marginBottom: "5px",
   },
 });
 
@@ -51,8 +52,8 @@ function AttendancePage() {
     setValue(newValue);
   };
   let categories = {
-    0: "cat1",
-    1: "cat2",
+    0: "tournament",
+    1: "practice",
     2: "cat3",
     3: "cat4",
   };
