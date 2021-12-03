@@ -1,15 +1,16 @@
 import "./App.css";
 import AttendancePage from "./Pages/AttendancePage";
 import DiscussionPage from "./Pages/DiscussionPage";
+import RegisterPage from "./Pages/RegisterPage";
+import LoginPage from "./Pages/LoginPage";
+import PollPage from "./Pages/PollPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Components/Layout";
 import { createTheme, ThemeProvider } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import RegisterPage from "./Pages/RegisterPage";
 import React from "react";
 import { useState } from "react";
-import LoginPage from "./Pages/LoginPage";
 import { CssBaseline } from "@mui/material";
 import { cs } from "date-fns/locale";
 
@@ -50,6 +51,7 @@ function App() {
                 path="login"
                 element={<LoginPage logged={logged} setLogged={setLogged} />}
               />
+              <Route path="poll" element={<PollPage />} /> 
             </Routes>
           </Layout>
         </LocalizationProvider>

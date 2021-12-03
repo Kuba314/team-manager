@@ -81,7 +81,16 @@ function Navbar() {
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
-        <Button size="large" edge="start" color="inherit">
+        <Button size="large" edge="start" color="inherit"
+        component={Link}
+        to={"/register"}
+        >
+          Register
+        </Button>
+        <Button size="large" edge="start" color="inherit"
+        component={Link}
+        to={"/login"}
+        >
           Login
         </Button>
       </Toolbar>

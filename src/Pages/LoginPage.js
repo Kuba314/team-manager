@@ -1,9 +1,20 @@
 import React from 'react'
 import {  useState } from 'react';
 import {TextField, Button} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles({
+
+  addComponent: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "1%",
+  },
+});
 
 function LoginPage({ setLogged, logged}) {
-  
+  const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = () => {
@@ -34,25 +45,36 @@ function LoginPage({ setLogged, logged}) {
   else {
       return (
         <div>
+        <div className={classes.addComponent}>
             <TextField
             InputLabelProps={{ style: { fontSize: 20 } }}
-            inputProps={{ style: { fontSize: 20 } }}
+            inputProps={{ style: { fontSize: 21 } }}
             onChange = {(e) => setEmail(e.target.value)}
             id="email"
-            label="Emails"
+            label="Email"
             type="email"
-            variant="standard"
+            variant="outlined"
           ></TextField>
+        </div>
+          <div className={classes.addComponent}>
           <TextField
             InputLabelProps={{ style: { fontSize: 20 } }}
-            inputProps={{ style: { fontSize: 20 } }}
+            inputProps={{ style: { fontSize: 21 } }}
             onChange = {(e) => setPassword(e.target.value)}
             id="password"
             label="Heslo"
             type="password"
-            variant="standard"
+            variant="outlined"
           ></TextField>
-          <Button onClick={handleLogin}>Přihlásit se</Button>
+          </div>
+
+          <div className={classes.addComponent}>
+          <Button onClick={handleLogin}
+          variant="outlined"
+          >
+            Přihlásit se
+         </Button>
+          </div>
         </div>
     )
   }
