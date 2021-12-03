@@ -2,7 +2,7 @@ const express = require('express')
 const cookieParser = require("cookie-parser")
 const sessions = require('express-session')
 
-const db = require('./db/methods')
+const handlers = require('./handlers')
 
 const app = express()
 const port = 3000
@@ -20,11 +20,16 @@ app.use(sessions({
 
 app.get('/', (req, res) => {
     res.send('\
+        <a href="users">users</a><br><a href="posts">posts</a>\
         <form method="POST" action="login"><input type="text" name="username"/><input type="text" name="password"/><input type="submit" value="Login"/></form>\
         <form method="POST" action="logout"><input type="submit" value="Log out"/></form>\
-        <form method="POST" action="addUser"><input type="text" name="username"/><input type="text" name="password"/><input type="submit" value="Create user"/></form>\
+        <form method="POST" action="register"><input type="text" name="username"/><input type="text" name="password"/><input type="submit" value="Create user"/></form>\
         <form method="POST" action="deleteUser"><input type="text" name="username"/><input type="submit" value="Delete user"/></form>\
         <form method="POST" action="userExists"><input type="text" name="username"/><input type="submit" value="User exists"/></form>\
+\
+        <form method="POST" action="addPost"><input type="text" name="category"/><input type="text" name="title"/><input type="text" name="body"/><input type="submit" value="Add post"/></form>\
+        <form method="POST" action="deletePost"><input type="text" name="post_id"/><input type="submit" value="Delete Post"/></form>\
+        <form method="POST" action="editPost"><input type="text" name="post_id"/><input type="text" name="category"/><input type="text" name="title"/><input type="text" name="body"/><input type="submit" value="Edit post"/></form>\
     ')
 })
 
@@ -36,138 +41,63 @@ const checkKeys = (req, keys) => {
     }
 }
 
-// Auth
-app.post('/login', (req, res) => {
-    const missingKey = checkKeys(req, ['username', 'password'])
-    if(missingKey) {
-        res.status(400).send(`Missing key: ${missingKey}`)
-        return
-    }
+// 200(ok)
+// 500(server error)
+post_endpoints = [
+    { endpoint: '/login',       auth: false, callback: handlers.login,       keys: ['username', 'password']},               // 403(invalid password), 404(user doesn't exist)
+    { endpoint: '/logout',      auth: true , callback: handlers.logout,      keys: []},                                     // 
+    { endpoint: '/register',    auth: false, callback: handlers.register,    keys: ['username', 'password']},               // 409(user already exists) 
 
-    db.authUser(req.body.username, req.body.password).then(user => {
-        console.log(user)
-        req.session.username = user.name
-        res.send()
-    }).catch(e => {
-        console.log(e)
-        res.status(e.code).send(e.reason)
+    { endpoint: '/deleteUser',  auth: true , callback: handlers.deleteUser,  keys: ['username']},                           // 404(user doesn't exist)
+    { endpoint: '/userExists',  auth: false, callback: handlers.userExists,  keys: ['username']},                           // 404(user doesn't exist)
+
+    { endpoint: '/addPost',     auth: true , callback: handlers.addPost,     keys: ['category', 'title', 'body']},
+    { endpoint: '/deletePost',  auth: true , callback: handlers.deletePost,  keys: ['post_id']},                            // 403(not logged in as author), 404(post doesn't exist)
+    { endpoint: '/editPost',    auth: true , callback: handlers.editPost,    keys: ['post_id', 'category', 'title', 'body']}// 403(not logged in as author), 404(post doesn't exist)
+
+    { endpoint: '/addEvent',    auth: true , callback: handlers.addEvent,     keys: ['title', 'body', 'time', 'location']},
+    { endpoint: '/deleteEvent', auth: true , callback: handlers.deleteEvent,  keys: ['event_id', 'title', 'body', 'time', 'location']},
+    { endpoint: '/editEvent',   auth: true , callback: handlers.editEvent,    keys: ['event_id', 'title', 'body', 'time', 'location']},
+]
+
+get_endpoints = [
+    { endpoint: '/users',    auth: false, callback: handlers.users},
+    { endpoint: '/posts',    auth: false, callback: handlers.posts},
+    { endpoint: '/myPosts',  auth: true , callback: handlers.myPosts},
+    { endpoint: '/events',   auth: false, callback: handlers.events},
+    { endpoint: '/myEvents', auth: true , callback: handlers.myEvents},
+]
+
+for(let endpoint of post_endpoints) {
+    app.post(endpoint.endpoint, (req, res) => {
+        const missingKey = checkKeys(req, endpoint.keys)
+        if(missingKey) {
+            res.status(400).send(`Missing key: ${missingKey}`)
+            return
+        }
+
+        if(endpoint.auth && !req.session.username) {
+            res.status(403).send('Not logged in')
+            return
+        }
+
+        endpoint.callback(req, res)
     })
-})
-app.post('/logout', (req, res) => {
-    if(!req.session.username) {
-        res.status(403).send('Not logged in')
-        return
-    }
+}
 
-    req.session.username = null
-    res.send()
-})
+for(let endpoint of get_endpoints) {
+    app.get(endpoint.endpoint, (req, res) => {
 
-// Users
-app.post('/addUser', (req, res) => {
-    const missingKey = checkKeys(req, ['username', 'password'])
-    if(missingKey) {
-        res.status(400).send(`Missing key: ${missingKey}`)
-        return
-    }
+        if(endpoint.auth && !req.session.username) {
+            res.status(403).send('Not logged in')
+            return
+        }
 
-    db.addUser(req.body.username, req.body.password).then(user => {
-        res.status(201).send(user.name)
-    }).catch(e => {
-        res.status(e.code).send(e.reason)
+        endpoint.callback(req, res)
     })
-})
-app.post('/deleteUser', (req, res) => {
-    const missingKey = checkKeys(req, ['username'])
-    if(missingKey) {
-        res.status(400).send(`Missing key: ${missingKey}`)
-        return
-    }
-
-    if(req.username != req.session.username) {
-        res.status(403).send('Can\'t delete a different user')
-        return
-    }
-
-    db.deleteUser(req.body.username).then(() => {
-        res.sendStatus(200)
-    }).catch(e => {
-        res.status(e.code).send(e.reason)
-    })
-})
-app.post('/userExists', (req, res) => {
-    const missingKey = checkKeys(req, ['username'])
-    if(missingKey) {
-        res.status(400).send(`Missing key: ${missingKey}`)
-        return
-    }
-
-    db.userExists(req.body.username).then(() => {
-        res.sendStatus(200)
-    }).catch(e => {
-        res.status(e.code).send(e.reason)
-    })
-})
-
-// Posts
-app.post('/addPost', (req, res) => {
-    const missingKey = checkKeys(req, ['category', 'title', 'body'])
-    if(missingKey) {
-        res.status(400).send(`Missing key: ${missingKey}`)
-        return
-    }
-
-    if(!req.session.username) {
-        res.status(403).send('Not logged in')
-        return
-    }
-
-    db.addPost(req.body.category, req.body.title, req.body.body).then(post => {
-        res.send()
-    }).catch(e => {
-        res.status(e.code).send(e.reason)
-    })
-})
-// app.post('/deletePost', (req, res) => {
-//     const missingKey = checkKeys(req, ['username'])
-//     if(missingKey) {
-//         res.status(400).send(`Missing key: ${missingKey}`)
-//         return
-//     }
-
-//     db.deleteUser(req.body.username).then(() => {
-//         res.sendStatus(200)
-//     }).catch(e => {
-//         res.status(e.code).send(e.reason)
-//     })
-// })
-// app.post('/editPost', (req, res) => {
-//     const missingKey = checkKeys(req, ['username'])
-//     if(missingKey) {
-//         res.status(400).send(`Missing key: ${missingKey}`)
-//         return
-//     }
-
-//     db.userExists(req.body.username).then(() => {
-//         res.sendStatus(200)
-//     }).catch(e => {
-//         res.status(e.code).send(e.reason)
-//     })
-// })
+}
 
 app.listen(port)
-
-/*
-500 on error
-400 missing key
-
-addUser(username, password) -> {200: added, 409: already exists}
-deleteUser(username) -> {200: removed, 404: user not found}
-userExists(username) -> {200: exists, 404: user not found}
-
-
-
-*/
 
 // addPost
 // deletePost

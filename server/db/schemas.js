@@ -8,7 +8,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/testing');
 
 const userSchema = new Schema({
     name: String,
-    password: String,
+    password_hash: String,
     phone: String,
     sex: {
         type: String,
@@ -16,6 +16,10 @@ const userSchema = new Schema({
     },
 })
 const eventSchema = new Schema({
+    author: {
+        type: mongoose.ObjectId,
+        ref: 'User'
+    },
     title: String,
     body: String,
     time: Date,
