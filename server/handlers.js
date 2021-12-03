@@ -17,7 +17,15 @@ const send = (res, code, data) => {
     res.status(code).send(data)
 }
 
+const generateToken = () => {
+    return Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2);
+}
+
+loggedInUsers = new Map()
+
 module.exports = {
+
+    loggedInUsers: loggedInUsers,
 
     // Auth
     login: (req, res) => {
@@ -33,15 +41,17 @@ module.exports = {
                 if(pw_hash(password) != user.password_hash) {
                     send(res, 403, 'Invalid password')
                 } else {
-                    req.session.username = username
+                    const token = generateToken()
+                    loggedInUsers.set(token, user._id)
                     req.session.userid = user._id
-                    send(res, 200)
+                    send(res, 200, token)
                 }
             }
         })
     },
     logout: (req, res) => {
-        req.session.username = null
+        const ix = loggedInUsers.indexOf(req.body.token)
+        loggedInUsers.splice(ix, 1)
         req.session.userid = null
         send(res, 200)
     },
@@ -60,8 +70,6 @@ module.exports = {
                         send(res, 500, err)
                     } else {
                         console.log(`[db] Created new user(${new_user._id}) ${new_user.name}`)
-                        req.session.username = username
-                        req.session.userid = new_user._id
                         send(res, 200)
                     }
                 })
@@ -94,8 +102,7 @@ module.exports = {
                     if(err) {
                         send(res, 500, err)
                     } else {
-                        console.log(`[db] Removed user(${req.session.userid}) ${req.session.username}`)
-                        req.session.username = null
+                        console.log(`[db] Removed user(${req.session.userid})`)
                         req.session.userid = null
                         send(res, 200)
                     }
@@ -139,7 +146,7 @@ module.exports = {
             if(err) {
                 send(res, 500, err)
             } else {
-                console.log(`Created new post(${new_post._id}) ${new_post.title} in category ${new_post.category}`)
+                console.log(`[db] Created new post(${new_post._id}) ${new_post.title} in category ${new_post.category}`)
                 send(res, 200)
             }
         })
@@ -214,6 +221,32 @@ module.exports = {
                             send(res, 200);
                         }
                     });
+                })
+            }
+        })
+    },
+    deleteComment: (req, res) => {
+        Post.findOne({comments: {_id: req.body.comment_id}}, (err, post) => {
+            if(err) {
+                send(res, 500, err)
+            } else if(!post) {
+                send(res, 404, 'Comment not found on any post')
+            } else {
+                Post.updateOne({_id: post.id}, {$pull: {comments: {_id: req.body.comment_id}}}, (err) => {
+                    if(err) {
+                        send(res, 500, err);
+                    } else {
+                        send(res, 200);
+                    }
+                });
+
+                Comment.deleteOne({_id: req.body.comment_id}, (err) => {
+                    if(err) {
+                        send(res, 500, err)
+                    } else {
+                        console.log(`[db] User(${req.session.userid}) deleted a comment(${req.body.comment_id}) on post(${post.id})`)
+                        send(res, 200)
+                    }
                 })
             }
         })

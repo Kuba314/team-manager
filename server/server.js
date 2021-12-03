@@ -29,14 +29,14 @@ app.get('/', (req, res) => {
         <form method="POST" action="login"><input name="username"/><input name="password"/><input type="submit" value="Login"/></form>\
         <form method="POST" action="logout"><input type="submit" value="Log out"/></form>\
         <form method="POST" action="register"><input name="username"/><input name="password"/><input type="submit" value="Create user"/></form>\
-        <form method="POST" action="deleteUser"><input name="username"/><input type="submit" value="Delete user"/></form>\
+        <form method="POST" action="deleteUser"><input type="submit" value="Delete user"/></form>\
         <form method="POST" action="userExists"><input name="username"/><input type="submit" value="User exists"/></form>\
         <h3>posts</h3>\
         <form method="POST" action="addPost"><input name="category"/><input name="title"/><input name="body"/><input type="submit" value="Add post"/></form>\
         <form method="POST" action="deletePost"><input name="post_id"/><input type="submit" value="Delete post"/></form>\
         <form method="POST" action="editPost"><input name="post_id"/><input name="category"/><input name="title"/><input name="body"/><input type="submit" value="Edit post"/></form>\
         <form method="POST" action="comment"><input name="post_id"/><input name="text"/><input type="submit" value="Comment"/></form>\
-        <form method="POST" action="deleteComment"><input name="post_id"/><input type="submit" value="Delete comment"/></form>\
+        <form method="POST" action="deleteComment"><input name="comment_id"/><input type="submit" value="Delete comment"/></form>\
         <h3>events</h3>\
         <form method="POST" action="addEvent"><input name="title"/><input name="body"/><input name="time"/><input name="location"/><input type="submit" value="Add event"/></form>\
         <form method="POST" action="deleteEvent"><input name="event_id"/><input type="submit" value="Delete event"/></form>\
@@ -100,6 +100,23 @@ get_endpoints = [
     {endpoint: '/joinedEvents', auth: true , callback: handlers.joinedEvents},
 ]
 
+const performAuth = (req) => {
+    if(req.body.token) {
+        const userid = handlers.loggedInUsers.get(req.body.token)
+        if(!userid) {
+            res.status(403).send('Invalid token')
+            return false
+        }
+        req.session.userid = userid
+    }
+
+    if(!req.session.userid) {
+        res.status(403).send('Not logged in')
+        return false
+    }
+    return true
+}
+
 for(let endpoint of post_endpoints) {
     app.post(endpoint.endpoint, (req, res) => {
         const missingKey = checkKeys(req, endpoint.keys)
@@ -108,8 +125,14 @@ for(let endpoint of post_endpoints) {
             return
         }
 
-        if(endpoint.auth && !req.session.username) {
-            res.status(403).send('Not logged in')
+        for(const key in req.body) {
+            if(key.endsWith('_id') && !key.match(/^[0-9a-fA-F]{24}$/)) {
+                res.status(400).send(`${key} has to be a valid id`)
+                return
+            }
+        }
+
+        if(endpoint.auth && !performAuth(req)) {
             return
         }
 
@@ -120,8 +143,7 @@ for(let endpoint of post_endpoints) {
 for(let endpoint of get_endpoints) {
     app.get(endpoint.endpoint, (req, res) => {
 
-        if(endpoint.auth && !req.session.username) {
-            res.status(403).send('Not logged in')
+        if(endpoint.auth && !performAuth(req)) {
             return
         }
 
