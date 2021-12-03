@@ -15,10 +15,9 @@ function EventCategories({ handleChange, selectedCategory }) {
       <Grid className={classes.tabBox} container>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={selectedCategory} onChange={handleChange}>
-            <Tab label="Category 1" value={0} />
-            <Tab label="Category 2" value={1} />
-            <Tab label="Category 3" value={2} />
-            <Tab label="Category 4" value={3} />
+            <Tab label="Tréninky" value={0} />
+            <Tab label="Turnaje" value={1} />
+            <Tab label="Teambuilding" value={2} />
           </Tabs>
         </Box>
       </Grid>

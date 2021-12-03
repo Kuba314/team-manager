@@ -21,6 +21,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     marginTop: "1%",
+    marginBottom: "5px",
   },
 });
 

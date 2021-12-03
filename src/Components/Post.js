@@ -9,6 +9,7 @@ import {
   Avatar,
   Box,
   Collapse,
+  IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Comment from "./Comment";
@@ -16,6 +17,7 @@ import { useState, useEffect } from "react";
 import useInterval from "../Helpers/useInterval";
 import AddDialogComment from "./AddDialogComment";
 import PostAvatar from "./PostAvatar";
+import EditIcon from "@mui/icons-material/Edit";
 
 const useStyles = makeStyles({
   rightAlign: {
@@ -94,6 +96,9 @@ function Post({ post, handleDelete }) {
             >
               Komentáře
             </Button>
+            <IconButton>
+              <EditIcon />
+            </IconButton>
           </Box>
           <Box className={classes.rightAlign}>
             <Typography variant="body2" color="text.secondary">

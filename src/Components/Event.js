@@ -79,7 +79,7 @@ function Event({ event }) {
         </CardContent>
         <CardActions>
           <Box className={classes.leftAlign}>
-            <Button size="large" expand={expanded} onClick={handleExpandClick}>
+            <Button size="large" onClick={handleExpandClick}>
               Kdo přijde
             </Button>
           </Box>

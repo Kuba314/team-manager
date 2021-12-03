@@ -13,6 +13,8 @@ import { makeStyles } from "@mui/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import DatePicker from "@mui/lab/DatePicker";
+import TimePicker from "@mui/lab/TimePicker";
 import dateCreator from "../Helpers/dateCreator";
 
 import DialogTitle from "@mui/material/DialogTitle";
@@ -27,6 +29,8 @@ const useStyles = makeStyles({
 });
 
 function AddDialogEvent({ open, handleClose }) {
+  const [dateValue, setDateValue] = React.useState(new Date());
+  const [timeValue, setTimeValue] = React.useState(new Date());
   let dateCreated = dateCreator();
   let author = "Charlie";
   const classes = useStyles();
@@ -78,8 +82,24 @@ function AddDialogEvent({ open, handleClose }) {
             fullWidth
             variant="outlined"
           ></TextField>
+          <DatePicker
+            label="Basic example"
+            value={dateValue}
+            onChange={(newValue) => {
+              setDateValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <TimePicker
+            label="Basic example"
+            value={timeValue}
+            onChange={(newValue) => {
+              setTimeValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
           <FormControl className={classes.categories} component="fieldset">
-            <FormLabel component="legend">Kategorie</FormLabel>
+            <FormLabel component="legend">Typ události</FormLabel>
             <RadioGroup
               row
               aria-label="Kategorie"
@@ -88,14 +108,14 @@ function AddDialogEvent({ open, handleClose }) {
               onChange={handleChange}
             >
               <FormControlLabel
-                value="cat1"
+                value="tournament"
                 control={<Radio />}
-                label="Category1"
+                label="Trénink"
               />
               <FormControlLabel
-                value="cat2"
+                value="practice"
                 control={<Radio />}
-                label="Category2"
+                label="Turnaj"
               />
             </RadioGroup>
           </FormControl>
