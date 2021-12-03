@@ -130,7 +130,7 @@ module.exports = {
             } else {
                 send(res, 200, posts)
             }
-        }).populate('comments')
+        }).populate('author').populate('comments')
     },
     myPosts: (req, res) => {
         Post.find({author: req.session.userid}, (err, posts) => {
@@ -139,7 +139,7 @@ module.exports = {
             } else {
                 send(res, 200, posts)
             }
-        }).populate('comments')
+        }).populate('author').populate('comments')
     },
     addPost: (req, res) => {
         Post.create({author: req.session.userid, category: req.body.category, title: req.body.title, body: req.body.body}, (err, new_post) => {
@@ -260,7 +260,7 @@ module.exports = {
             } else {
                 send(res, 200, events)
             }
-        })
+        }).populate('author').populate('attendees')
     },
     myEvents: (req, res) => {
         Event.find({author: req.session.userid}, (err, events) => {
@@ -269,7 +269,7 @@ module.exports = {
             } else {
                 send(res, 200, events)
             }
-        })
+        }).populate('author').populate('attendees')
     },
     joinedEvents: (req, res) => {
         Event.find({attendees: req.session.userid}, (err, events) => {
@@ -389,7 +389,7 @@ module.exports = {
             } else {
                 send(res, 200, polls)
             }
-        })
+        }).populate('author').populate('votes.voter')
     },
     addPoll: (req, res) => {
         Poll.create({author: req.session.userid, prompt: req.body.prompt, options: req.body.options, voters: []}, (err, new_poll) => {

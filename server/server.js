@@ -100,7 +100,7 @@ get_endpoints = [
     {endpoint: '/joinedEvents', auth: true , callback: handlers.joinedEvents},
 ]
 
-const performAuth = (req) => {
+const performAuth = (req, res) => {
     if(req.body.token) {
         const userid = handlers.loggedInUsers.get(req.body.token)
         if(!userid) {
@@ -126,13 +126,13 @@ for(let endpoint of post_endpoints) {
         }
 
         for(const key in req.body) {
-            if(key.endsWith('_id') && !key.match(/^[0-9a-fA-F]{24}$/)) {
+            if(key.endsWith('_id') && !req.body[key].match(/^[0-9a-fA-F]{24}$/)) {
                 res.status(400).send(`${key} has to be a valid id`)
                 return
             }
         }
 
-        if(endpoint.auth && !performAuth(req)) {
+        if(endpoint.auth && !performAuth(req, res)) {
             return
         }
 
@@ -143,7 +143,7 @@ for(let endpoint of post_endpoints) {
 for(let endpoint of get_endpoints) {
     app.get(endpoint.endpoint, (req, res) => {
 
-        if(endpoint.auth && !performAuth(req)) {
+        if(endpoint.auth && !performAuth(req, res)) {
             return
         }
 
