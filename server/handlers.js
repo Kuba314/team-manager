@@ -44,7 +44,7 @@ module.exports = {
                     const token = generateToken()
                     loggedInUsers.set(token, user._id)
                     req.session.userid = user._id
-                    send(res, 200, token)
+                    send(res, 200, {token: token})
                 }
             }
         })
