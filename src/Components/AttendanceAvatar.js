@@ -1,11 +1,11 @@
 import { Avatar, Typography } from "@mui/material";
 import React from "react";
 
-function AttendanceAvatar() {
+function AttendanceAvatar({ user }) {
   return (
     <div>
-      <Avatar>A</Avatar>
-      <Typography>Jméno</Typography>
+      <Avatar>{user.name[0]}</Avatar>
+      <Typography>{user.name}</Typography>
     </div>
   );
 }

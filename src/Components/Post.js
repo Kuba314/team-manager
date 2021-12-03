@@ -50,18 +50,12 @@ function Post({ post, handleDelete }) {
   };
 
   const [comments, setComments] = useState([]); //Fetches the posts, temporarily from fakeDB
-  const fetchData = () => {
-    fetch("http://localhost:3000/comments")
-      .then((res) => res.json())
-      .then((data) => setComments(data));
-  };
-  useEffect(fetchData, []);
 
-  useInterval(fetchData, 5000);
+  //useInterval(fetchData, 5000);
   return (
     <div>
       <AddDialogComment
-        postId={post.id}
+        postId={post._id}
         open={open}
         handleClose={handleClose}
       />
@@ -69,7 +63,7 @@ function Post({ post, handleDelete }) {
         <CardHeader
           title={post.title}
           titleTypographyProps={{ variant: "h5" }}
-          avatar={<PostAvatar author={post.author} />}
+          avatar={<PostAvatar author={post.author.name} />}
         />
 
         <CardContent>
@@ -82,7 +76,7 @@ function Post({ post, handleDelete }) {
             <Button
               color="primary"
               variant="text"
-              onClick={() => handleDelete(post.id)}
+              onClick={() => handleDelete(post._id)}
               size="large"
             >
               Delete
@@ -94,7 +88,7 @@ function Post({ post, handleDelete }) {
               variant="text"
               size="large"
             >
-              Komentáře
+              Komentáře {post.comments.length}
             </Button>
             <IconButton>
               <EditIcon />
@@ -118,12 +112,9 @@ function Post({ post, handleDelete }) {
           <Button variant="outlined" onClick={handleClickOpen}>
             Přidat komentář
           </Button>
-          {comments
-            .filter((comment) => comment.postId === post.id)
-            .reverse()
-            .map((comment) => (
-              <Comment comment={comment}></Comment>
-            ))}
+          {post.comments.map((comment) => (
+            <Comment comment={comment}></Comment>
+          ))}
         </Collapse>
       </Card>
     </div>

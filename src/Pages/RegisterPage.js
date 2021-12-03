@@ -1,10 +1,9 @@
-import React from 'react'
-import {Button, TextField} from "@mui/material";
-import {useState} from 'react'
+import React from "react";
+import { Button, TextField } from "@mui/material";
+import { useState } from "react";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
-
   addComponent: {
     display: "flex",
     alignItems: "center",
@@ -16,67 +15,62 @@ const useStyles = makeStyles({
 function RegisterPage() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-    const handleRegister = () => {
-        fetch("http://localhost:3000/register", {
-            method : "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-                 nickname,
-                 email,
-                password
-            }),
-        })
-        .then(console.log("registered succesful"))
-        .catch((error) => {
-            console.log(error)
-          });;
-    };
-    return (
-        <div>
-             <div className={classes.addComponent}>
-            <TextField
-            InputLabelProps={{ style: { fontSize: 20 } }}
-            inputProps={{ style: { fontSize: 20 } }}
-            onChange = {(e) => setNickname(e.target.value)}
-            id="nickname"
-            label="Přezdívka"
-            type="nickname"
-            variant="outlined"
-          ></TextField>
-          </div>
-          
-          <div className={classes.addComponent}>
-            <TextField
-            InputLabelProps={{ style: { fontSize: 20 } }}
-            inputProps={{ style: { fontSize: 20 } }}
-            onChange = {(e) => setEmail(e.target.value)}
-            id="email"
-            label="Email"
-            type="email"
-            variant="outlined"
-          ></TextField>
-          </div>
-          
-          <div className={classes.addComponent}>
-          <TextField
-            InputLabelProps={{ style: { fontSize: 20 } }}
-            inputProps={{ style: { fontSize: 20 } }}
-            onChange = {(e) => setPassword(e.target.value)}
-            id="password"
-            label="Heslo"
-            type="password"
-            variant="outlined"
-          ></TextField>
-          </div>
-          <div className={classes.addComponent}>
-          <Button onClick={handleRegister}
+  const handleRegister = () => {
+    fetch("http://localhost:3000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({ username: username, password: password }),
+    });
+  };
+  return (
+    <div>
+      <div className={classes.addComponent}>
+        <TextField
+          InputLabelProps={{ style: { fontSize: 20 } }}
+          inputProps={{ style: { fontSize: 20 } }}
+          onChange={(e) => setUsername(e.target.value)}
+          id="username"
+          label="Přezdívka"
+          type="nickname"
           variant="outlined"
-          >Registrovat</Button>
-          </div>
-        </div>
-    )
+        ></TextField>
+      </div>
+
+      <div className={classes.addComponent}>
+        <TextField
+          InputLabelProps={{ style: { fontSize: 20 } }}
+          inputProps={{ style: { fontSize: 20 } }}
+          onChange={(e) => setEmail(e.target.value)}
+          id="email"
+          label="Email"
+          type="email"
+          variant="outlined"
+        ></TextField>
+      </div>
+
+      <div className={classes.addComponent}>
+        <TextField
+          InputLabelProps={{ style: { fontSize: 20 } }}
+          inputProps={{ style: { fontSize: 20 } }}
+          onChange={(e) => setPassword(e.target.value)}
+          id="password"
+          label="Heslo"
+          type="password"
+          variant="outlined"
+        ></TextField>
+      </div>
+      <div className={classes.addComponent}>
+        <Button onClick={handleRegister} variant="outlined">
+          Registrovat
+        </Button>
+      </div>
+    </div>
+  );
 }
 
-export default RegisterPage
+export default RegisterPage;

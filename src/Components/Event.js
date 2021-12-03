@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PlaceIcon from "@mui/icons-material/Place";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DoneIcon from "@mui/icons-material/Done";
@@ -50,11 +50,47 @@ function Event({ event }) {
   let green = "#6a8565";
   let gray = "#8e918f";
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [events, setEvents] = useState([]);
+
+  const fetchData = () => {
+    fetch("http://localhost:3000/events")
+      .then((res) => res.json())
+      .then((data) => {
+        setEvents(data);
+        func(data);
+      });
+  };
+
+  useEffect(fetchData, []);
 
   const handleExpandClick = () => {
+    help();
     setExpanded(!expanded);
   };
+
+  const [attends, setAttends] = useState([]);
+
+  const help = () => {
+    var filtered = events.find((ldevent) => {
+      return ldevent._id === event._id;
+    });
+
+    console.log(filtered.attendees);
+    setAttends(filtered.attendees);
+  };
+  const func = (data) => {
+    var filtered = data.find((ldevent) => {
+      return ldevent._id === event._id;
+    });
+    for (const attend of filtered.attendees) {
+      if (attend.name === localStorage.getItem("user")) {
+        setColor(selgreen);
+        return;
+      }
+    }
+  };
+
   const [colorCome, setColor] = useState("#6a8565");
   return (
     <div>
@@ -67,13 +103,16 @@ function Event({ event }) {
               <ListItemIcon>
                 <PlaceIcon />
               </ListItemIcon>
-              <ListItemText primary="Místo" secondary="Hřiště za parkem" />
+              <ListItemText primary="Místo" secondary={event.location} />
             </ListItem>
             <ListItem disablePadding>
               <ListItemIcon>
                 <AccessTimeIcon />
               </ListItemIcon>
-              <ListItemText primary="Čas" secondary="30. 11. 2021 14:16:55" />
+              <ListItemText
+                primary="Čas"
+                secondary={event.time.toLocaleString()}
+              />
             </ListItem>
           </List>
         </CardContent>
@@ -89,11 +128,43 @@ function Event({ event }) {
               variant="contained"
               style={{ backgroundColor: colorCome }}
               onClick={() => {
+                if (colorCome === green) {
+                  setColor(selgreen);
+                }
                 if (colorCome === selgreen) {
                   setColor(green);
-                  return;
                 }
-                setColor(selgreen);
+                fetchData();
+                var filtered = events.find((ldevent) => {
+                  return ldevent._id === event._id;
+                });
+
+                console.log(filtered);
+                for (const attend of filtered.attendees) {
+                  if (attend.name === localStorage.getItem("user")) {
+                    fetch("http://localhost:3000/leaveevent", {
+                      method: "POST",
+                      headers: { "Content-type": "application/json" },
+                      body: JSON.stringify({
+                        event_id: filtered._id,
+                        token: localStorage.getItem("token"),
+                      }),
+                    });
+                    fetchData();
+
+                    return;
+                  }
+                }
+
+                fetch("http://localhost:3000/joinevent", {
+                  method: "POST",
+                  headers: { "Content-type": "application/json" },
+                  body: JSON.stringify({
+                    event_id: filtered._id,
+                    token: localStorage.getItem("token"),
+                  }),
+                });
+                fetchData();
               }}
             >
               <DoneIcon></DoneIcon>Přijdu
@@ -102,25 +173,9 @@ function Event({ event }) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Grid container spacing={1.5}>
-            <Grid item xs={3}>
-              <AttendanceAvatar></AttendanceAvatar>
-            </Grid>
-            <Grid item xs={3}>
-              <AttendanceAvatar></AttendanceAvatar>
-            </Grid>
-            <Grid item xs={3}>
-              <AttendanceAvatar></AttendanceAvatar>
-            </Grid>
-            <Grid item xs={3}>
-              <AttendanceAvatar></AttendanceAvatar>
-            </Grid>
-
-            <Grid item xs={3}>
-              <AttendanceAvatar></AttendanceAvatar>
-            </Grid>
-            <Grid item xs={3}>
-              <AttendanceAvatar></AttendanceAvatar>
-            </Grid>
+            {attends.map((attend) => (
+              <AttendanceAvatar user={attend}></AttendanceAvatar>
+            ))}
           </Grid>
         </Collapse>
       </Card>

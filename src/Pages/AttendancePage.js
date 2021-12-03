@@ -37,15 +37,16 @@ function AttendancePage() {
   };
 
   const handleClose = () => {
-    //fetchData();
+    fetchData();
     setOpen(false);
   };
   const [events, setEvents] = useState([]); //Fetches the eventss, temporarily from fakeDB
-  useEffect(() => {
+  const fetchData = () => {
     fetch("http://localhost:3000/events")
       .then((res) => res.json())
       .then((data) => setEvents(data));
-  }, []);
+  };
+  useEffect(fetchData, []);
   const [selectedCategory, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -73,13 +74,11 @@ function AttendancePage() {
       <div className={classes.cont}>
         <Grid container spacing={3}>
           {/*Filters eventss based on category, then creates a events component from them*/}
-          {events
-            .filter((event) => event.category === categories[selectedCategory])
-            .map((event) => (
-              <Grid item key={event.id} xs={12} md={6} lg={4}>
-                <Event event={event}></Event>
-              </Grid>
-            ))}
+          {events.map((event) => (
+            <Grid item key={event.id} xs={12} md={6} lg={4}>
+              <Event event={event}></Event>
+            </Grid>
+          ))}
         </Grid>
       </div>
     </div>

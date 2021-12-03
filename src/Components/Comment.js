@@ -43,9 +43,9 @@ function Comment({ comment }) {
           </div>
           <div className={classes.content}>
             <Typography variant="h6" fontWeight="bold">
-              Author
+              {comment.author}
             </Typography>
-            <Typography color="#EFEFEF">{comment.body}</Typography>
+            <Typography color="#EFEFEF">{comment.text}</Typography>
           </div>
           <IconButton className={classes.dltBtn}>
             <DeleteIcon />

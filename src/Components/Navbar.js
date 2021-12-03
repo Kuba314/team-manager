@@ -81,15 +81,22 @@ function Navbar() {
             </ToggleButton>
           </ToggleButtonGroup>
         </Box>
-        <Button size="large" edge="start" color="inherit"
-        component={Link}
-        to={"/register"}
+        {localStorage.getItem("username")}
+        <Button
+          size="large"
+          edge="start"
+          color="inherit"
+          component={Link}
+          to={"/register"}
         >
           Registrace
         </Button>
-        <Button size="large" edge="start" color="inherit"
-        component={Link}
-        to={"/login"}
+        <Button
+          size="large"
+          edge="start"
+          color="inherit"
+          component={Link}
+          to={"/login"}
         >
           Přihlášení
         </Button>

@@ -38,16 +38,17 @@ function DiscussionPage({ ondiscussion }) {
     fetchData();
     setOpen(false);
   };
-
   const [posts, setPosts] = useState([]); //Fetches the posts, temporarily from fakeDB
   const fetchData = () => {
     fetch("http://localhost:3000/posts")
       .then((res) => res.json())
-      .then((data) => setPosts(data));
+      .then((data) => {
+        setPosts(data);
+      });
   };
   useEffect(fetchData, []);
 
-  useInterval(fetchData, 5000);
+  //useInterval(fetchData, 5000);
   // uses a useState hook to change categories
   const [selectedCategory, setValue] = useState(0);
 
@@ -61,10 +62,14 @@ function DiscussionPage({ ondiscussion }) {
     3: "cat4",
   };
 
-  const handleDelete = async (id) => {
-    await fetch("http://localhost:3000/posts/" + id, {
-      method: "DELETE",
+  const handleDelete = (id) => {
+    fetch("http://localhost:3000/deletepost", {
+      method: "POST",
       headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        post_id: id,
+        token: localStorage.getItem("token"),
+      }),
     });
     const newPosts = posts.filter((post) => post.id !== id);
     setPosts(newPosts);
@@ -88,14 +93,11 @@ function DiscussionPage({ ondiscussion }) {
         {/*Container for posts*/}
         <Grid container spacing={3}>
           {/*Filters posts based on category, then creates a post component from them*/}
-          {posts
-            .filter((post) => post.category === categories[selectedCategory])
-            .reverse()
-            .map((post) => (
-              <Grid item key={post.id} xs={12}>
-                <Post post={post} handleDelete={handleDelete}></Post>
-              </Grid>
-            ))}
+          {posts.reverse().map((post) => (
+            <Grid item key={post._id} xs={12}>
+              <Post post={post} handleDelete={handleDelete}></Post>
+            </Grid>
+          ))}
         </Grid>
       </div>
     </div>

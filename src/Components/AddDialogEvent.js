@@ -43,15 +43,17 @@ function AddDialogEvent({ open, handleClose }) {
   const [body, setBody] = useState("");
 
   const handleSubmit = () => {
-    fetch("http://localhost:3000/events", {
+    fetch("http://localhost:3000/addevent", {
       method: "POST",
-      headers: { "Content-type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        title,
-        body,
-        category,
-        author,
-        dateCreated,
+        title: title,
+        body: category,
+        time: timeValue,
+        location: body,
+        token: localStorage.getItem("token"),
       }),
     }).then(handleClose());
   };
@@ -82,6 +84,7 @@ function AddDialogEvent({ open, handleClose }) {
             fullWidth
             variant="outlined"
           ></TextField>
+
           <DatePicker
             label="Basic example"
             value={dateValue}
@@ -124,7 +127,9 @@ function AddDialogEvent({ open, handleClose }) {
           <Button size="large" onClick={handleClose}>
             Zrušit
           </Button>
-          <Button size="large">Přidat</Button>
+          <Button size="large" onClick={handleSubmit}>
+            Přidat
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -11,16 +11,15 @@ import { useState } from "react";
 import { makeStyles } from "@mui/styles";
 
 function AddDialogComment({ postId, open, handleClose }) {
-  let author = "Jakub";
   const [body, setBody] = useState("");
   const handleSubmit = () => {
-    fetch("http://localhost:3000/comments", {
+    fetch("http://localhost:3000/comment", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
-        author,
-        body,
-        postId,
+        text: body,
+        post_id: postId,
+        token: localStorage.getItem("token"),
       }),
     }).then(handleClose());
   };

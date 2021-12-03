@@ -54,15 +54,16 @@ function AddDialog({ open, handleClose }) {
     if (title === "" || body === "") {
       return;
     }
-    fetch("http://localhost:3000/posts", {
+    fetch("http://localhost:3000/addPost", {
       method: "POST",
-      headers: { "Content-type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        title,
-        body,
-        category,
-        author,
-        dateCreated,
+        title: title,
+        body: body,
+        category: category,
+        token: localStorage.getItem("token"),
       }),
     }).then(handleClose());
   };
