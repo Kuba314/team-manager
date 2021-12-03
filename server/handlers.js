@@ -55,7 +55,7 @@ module.exports = {
                     if(err) {
                         send(res, 500, err)
                     } else {
-                        console.log(`Created new user ${new_user.name}`)
+                        console.log(`Created new user(${new_user._id}) ${new_user.name}`)
                         req.session.username = username
                         req.session.userid = new_user._id
                         send(res, 200)
@@ -90,7 +90,7 @@ module.exports = {
                     if(err) {
                         send(res, 500, err)
                     } else {
-                        console.log(`Removed user ${req.session.username} with id ${req.session.userid}`)
+                        console.log(`Removed user(${req.session.userid}) ${req.session.username}`)
                         req.session.username = null
                         req.session.userid = null
                         send(res, 200)
@@ -122,12 +122,21 @@ module.exports = {
             }
         })
     },
+    myPosts: (req, res) => {
+        Post.find({author: req.session.userid}, (err, posts) => {
+            if(err) {
+                send(res, 500, err)
+            } else {
+                send(res, 200, posts)
+            }
+        })
+    }
     addPost: (req, res) => {
         Post.create({author: req.session.userid, category: req.body.category, title: req.body.title, body: req.body.body}, (err, new_post) => {
             if(err) {
                 send(res, 500, err)
             } else {
-                console.log(`Created new post ${new_post.title} in category ${new_post.category}`)
+                console.log(`Created new post(${new_post._id}) ${new_post.title} in category ${new_post.category}`)
                 send(res, 200)
             }
         })
@@ -149,7 +158,7 @@ module.exports = {
                     if(err) {
                         send(res, 500, err)
                     } else {
-                        console.log(`Removed post with id ${req.body.post_id}`)
+                        console.log(`Removed post(${req.body.post_id})`)
                         send(res, 200)
                     }
                 })
@@ -178,11 +187,42 @@ module.exports = {
                         console.log(err)
                         send(res, 500, err)
                     } else {
-                        console.log(`Updated post with id ${req.body.post_id}`)
+                        console.log(`Updated post(${req.body.post_id})`)
                         send(res, 200)
                     }
                 })
             }
         })
     },
+
+    // Events
+    events: (req, res) => {
+        Event.find({}, (err, events) => {
+            if(err) {
+                send(res, 500, err)
+            } else {
+                send(res, 200, events)
+            }
+        })
+    },
+    myEvents: (req, res) => {
+        Event.find({author: req.session.userid}, (err, events) => {
+            if(err) {
+                send(res, 500, err)
+            } else {
+                send(res, 200, events)
+            }
+        })
+    }
+    addEvent: (req, res) => {
+        Post.create({author: req.session.userid, title: req.body.title, body: req.body.body, time: req.body.time, location: req.body.location}, (err, new_event) => {
+            if(err) {
+                send(res, 500, err)
+            } else {
+                console.log(`Created new event(${new_event._id}) ${new_event.title}`)
+                send(res, 200)
+            }
+        })
+    },
+
 }

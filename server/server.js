@@ -50,14 +50,22 @@ post_endpoints = [
 
     { endpoint: '/deleteUser',  auth: true , callback: handlers.deleteUser,  keys: ['username']},                           // 404(user doesn't exist)
     { endpoint: '/userExists',  auth: false, callback: handlers.userExists,  keys: ['username']},                           // 404(user doesn't exist)
+
     { endpoint: '/addPost',     auth: true , callback: handlers.addPost,     keys: ['category', 'title', 'body']},
     { endpoint: '/deletePost',  auth: true , callback: handlers.deletePost,  keys: ['post_id']},                            // 403(not logged in as author), 404(post doesn't exist)
     { endpoint: '/editPost',    auth: true , callback: handlers.editPost,    keys: ['post_id', 'category', 'title', 'body']}// 403(not logged in as author), 404(post doesn't exist)
+
+    { endpoint: '/addEvent',    auth: true , callback: handlers.addEvent,     keys: ['title', 'body', 'time', 'location']},
+    { endpoint: '/deleteEvent', auth: true , callback: handlers.deleteEvent,  keys: ['event_id', 'title', 'body', 'time', 'location']},
+    { endpoint: '/editEvent',   auth: true , callback: handlers.editEvent,    keys: ['event_id', 'title', 'body', 'time', 'location']},
 ]
 
 get_endpoints = [
-    { endpoint: '/users', auth: false, callback: handlers.users},
-    { endpoint: '/posts', auth: false, callback: handlers.posts},
+    { endpoint: '/users',    auth: false, callback: handlers.users},
+    { endpoint: '/posts',    auth: false, callback: handlers.posts},
+    { endpoint: '/myPosts',  auth: true , callback: handlers.myPosts},
+    { endpoint: '/events',   auth: false, callback: handlers.events},
+    { endpoint: '/myEvents', auth: true , callback: handlers.myEvents},
 ]
 
 for(let endpoint of post_endpoints) {

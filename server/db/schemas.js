@@ -16,6 +16,10 @@ const userSchema = new Schema({
     },
 })
 const eventSchema = new Schema({
+    author: {
+        type: mongoose.ObjectId,
+        ref: 'User'
+    },
     title: String,
     body: String,
     time: Date,
