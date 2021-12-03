@@ -85,13 +85,13 @@ function Navbar() {
         component={Link}
         to={"/register"}
         >
-          Register
+          Registrace
         </Button>
         <Button size="large" edge="start" color="inherit"
         component={Link}
         to={"/login"}
         >
-          Login
+          Přihlášení
         </Button>
       </Toolbar>
     </AppBar>
