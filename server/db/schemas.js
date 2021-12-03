@@ -24,6 +24,10 @@ const eventSchema = new Schema({
     body: String,
     time: Date,
     location: String,
+    attendees: [{
+        type: mongoose.ObjectId,
+        ref: 'User'
+    }],
 })
 const postSchema = new Schema({
     author: {
@@ -42,7 +46,7 @@ const postSchema = new Schema({
     body: String,
     comments: [{
         type: mongoose.ObjectId,
-        ref: 'Post'
+        ref: 'Comment'
     }],
 })
 const commentSchema = new Schema({
@@ -58,6 +62,7 @@ const commentSchema = new Schema({
 })
 const pollSchema = new Schema({
     prompt: String,
+    options: [String],
     author: {
         type: mongoose.ObjectId,
         ref: 'User'
