@@ -50,8 +50,7 @@ module.exports = {
         })
     },
     logout: (req, res) => {
-        const ix = loggedInUsers.indexOf(req.body.token)
-        loggedInUsers.splice(ix, 1)
+        loggedInUsers.delete(req.body.token)
         req.session.userid = null
         send(res, 200)
     },
