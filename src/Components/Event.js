@@ -19,7 +19,10 @@ import {
   Collapse,
   Grid,
   Box,
+  IconButton,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AttendanceAvatar from "./AttendanceAvatar";
 import CloseIcon from "@mui/icons-material/Close";
 import { makeStyles } from "@mui/styles";
@@ -83,6 +86,7 @@ function Event({ event, handleDelete }) {
     });
 
     console.log(filtered.attendees);
+    console.log(attends.length);
   };
   const func = (data) => {
     var filtered = data.find((ldevent) => {
@@ -104,9 +108,8 @@ function Event({ event, handleDelete }) {
         event_id: filtered._id,
         token: localStorage.getItem("token"),
       }),
-    });
+    }).then(fetchData());
 
-    fetchData();
     setColor(green);
 
     return;
@@ -130,8 +133,7 @@ function Event({ event, handleDelete }) {
         event_id: filtered._id,
         token: localStorage.getItem("token"),
       }),
-    });
-    fetchData();
+    }).then(fetchData());
   };
   const [openEditEvent, setEditOpenEvent] = useState(false);
 
@@ -155,9 +157,8 @@ function Event({ event, handleDelete }) {
         handleClose={handleEditCloseEvent}
         url={"http://localhost:3000/editpost"}
         id={event._id}
-        eventTitle={event.title}
-        eventBody={event.location}
-        eventCategory={event.body}
+        event={event}
+        fetchData={fetchData}
       />
       <Card align="center">
         <CardHeader title={event.title} subheader={event.category} />
@@ -181,14 +182,24 @@ function Event({ event, handleDelete }) {
             </ListItem>
           </List>
           <Box className={classes.dltBtn}>
-            <Button onClick={() => handleDelete(event._id)}>Smazat</Button>
-            <Button onClick={handleClickEditOpenEvent}>Edit</Button>
+            <IconButton
+              disabled={event.author.name != localStorage.getItem("user")}
+              onClick={() => handleDelete(event._id)}
+            >
+              <DeleteIcon />
+            </IconButton>
+            <IconButton
+              disabled={event.author.name != localStorage.getItem("user")}
+              onClick={handleClickEditOpenEvent}
+            >
+              <EditIcon />
+            </IconButton>
           </Box>
         </CardContent>
         <CardActions>
           <Box className={classes.leftAlign}>
             <Button size="large" onClick={handleExpandClick}>
-              Kdo přijde
+              Kdo přijde {attends.length}
             </Button>
           </Box>
           <Box className={classes.rightAlign}>
@@ -197,7 +208,11 @@ function Event({ event, handleDelete }) {
               variant="contained"
               style={{ backgroundColor: colorCome }}
               onClick={() => {
-                fetchData();
+                fetch("http://localhost:3000/events")
+                  .then((res) => res.json())
+                  .then((data) => {
+                    setEvents(data);
+                  });
                 join();
               }}
             >
@@ -208,10 +223,12 @@ function Event({ event, handleDelete }) {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Grid container spacing={1.5}>
             {attends.map((attend) => (
-              <AttendanceAvatar
-                key={attend._id}
-                user={attend}
-              ></AttendanceAvatar>
+              <Grid item>
+                <AttendanceAvatar
+                  key={attend._id}
+                  user={attend}
+                ></AttendanceAvatar>
+              </Grid>
             ))}
           </Grid>
         </Collapse>

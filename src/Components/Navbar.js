@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     minWidth: "120px",
   },
 });
-function Navbar() {
+function Navbar(logged, setLogged) {
   const classes = useStyles();
   const [selected, setSelected] = React.useState(window.location.pathname);
   const handleSelected = (event, newSelected) => {
@@ -27,82 +27,113 @@ function Navbar() {
       setSelected(newSelected);
     }
   };
-
-  return (
-    <AppBar enableColorOnDark color="default" position="static">
-      <Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <ToggleButtonGroup
-            variant="text"
-            className={classes.btnGroup}
-            value={selected}
-            onChange={handleSelected}
-            exclusive
+  if (localStorage.getItem("user") === null) {
+    return (
+      <AppBar enableColorOnDark color="default" position="static">
+        <Toolbar>
+          {localStorage.getItem("username")}
+          <Button
+            size="large"
+            edge="start"
+            color="inherit"
+            component={Link}
+            to={"/register"}
           >
-            <ToggleButton
-              className={classes.btn}
-              /* size="large"
-              edge="start"
-              color="inherit"*/
-              style={{ borderRadius: "4px", border: "0px" }}
-              size="large"
+            Registrace
+          </Button>
+          <Button
+            size="large"
+            edge="start"
+            color="inherit"
+            component={Link}
+            to={"/login"}
+          >
+            Přihlášení
+          </Button>
+        </Toolbar>
+      </AppBar>
+    );
+  } else {
+    return (
+      <AppBar enableColorOnDark color="default" position="static">
+        <Toolbar>
+          <Box sx={{ flexGrow: 1 }}>
+            <ToggleButtonGroup
               variant="text"
-              value="/attendance"
-              component={Link}
-              to={"/attendance"}
+              className={classes.btnGroup}
+              value={selected}
+              onChange={handleSelected}
+              exclusive
             >
-              Docházka
-            </ToggleButton>
-            <ToggleButton
-              className={classes.btn}
-              /*size="large"
+              <ToggleButton
+                className={classes.btn}
+                /* size="large"
               edge="start"
               color="inherit"*/
-              style={{ borderRadius: "4px", border: "0px" }}
-              size="large"
-              value="/discussion"
-              component={Link}
-              to={"/discussion"}
-            >
-              Diskuze
-            </ToggleButton>
-            <ToggleButton
-              className={classes.btn}
-              /*size="large"
+                style={{ borderRadius: "4px", border: "0px" }}
+                size="large"
+                variant="text"
+                value="/attendance"
+                component={Link}
+                to={"/attendance"}
+              >
+                Docházka
+              </ToggleButton>
+              <ToggleButton
+                className={classes.btn}
+                /*size="large"
               edge="start"
               color="inherit"*/
-              style={{ borderRadius: "4px", border: "0px" }}
-              size="large"
-              value="/poll"
-              component={Link}
-              to={"/poll"}
-            >
-              Ankety
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
-        {localStorage.getItem("username")}
-        <Button
-          size="large"
-          edge="start"
-          color="inherit"
-          component={Link}
-          to={"/register"}
-        >
-          Registrace
-        </Button>
-        <Button
-          size="large"
-          edge="start"
-          color="inherit"
-          component={Link}
-          to={"/login"}
-        >
-          Přihlášení
-        </Button>
-      </Toolbar>
-    </AppBar>
-  );
+                style={{ borderRadius: "4px", border: "0px" }}
+                size="large"
+                value="/discussion"
+                component={Link}
+                to={"/discussion"}
+              >
+                Diskuze
+              </ToggleButton>
+              <ToggleButton
+                className={classes.btn}
+                /*size="large"
+              edge="start"
+              color="inherit"*/
+                style={{ borderRadius: "4px", border: "0px" }}
+                size="large"
+                value="/poll"
+                component={Link}
+                to={"/poll"}
+              >
+                Ankety
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+
+          <Button
+            size="large"
+            edge="start"
+            color="inherit"
+            component={Link}
+            onClick={() => {
+              fetch("http://localhost:3000/logout", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  token: localStorage.getItem("token"),
+                }),
+              })
+                .then(localStorage.clear())
+                .then(setLogged(false));
+            }}
+            to={"/login"}
+          >
+            Odhlášení
+          </Button>
+        </Toolbar>
+      </AppBar>
+    );
+  }
 }
 
 export default Navbar;

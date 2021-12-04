@@ -98,8 +98,8 @@ function DiscussionPage({ ondiscussion }) {
         <Grid container spacing={3}>
           {/*Filters posts based on category, then creates a post component from them*/}
           {posts
-            .reverse()
             .filter((post) => post.category === categories[selectedCategory])
+            .reverse()
             .map((post) => (
               <Grid item key={post._id} xs={12}>
                 <Post

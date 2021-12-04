@@ -385,10 +385,10 @@ module.exports = {
       } else if (!event) {
         send(res, 404, "Event not found");
       } else {
-        if (event.author != req.session.userid) {
+        /*if (event.author != req.session.userid) {
           send(res, 403, "Only author can edit this event");
           return;
-        }
+        }*/
         Event.updateOne(
           { _id: req.body.event_id },
           replacement,

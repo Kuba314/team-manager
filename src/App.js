@@ -35,23 +35,24 @@ const theme = createTheme({
 });
 
 function App() {
-  const [logged, setLogged] = useState(false);
+  const [logged, setLogged] = useState(localStorage.getItem("user") != null);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
         <LocalizationProvider locale={cs} dateAdapter={AdapterDateFns}>
-          <Layout>
+          <Layout logged={logged} setLogged={setLogged}>
             <Routes>
               <Route path="discussion" element={<DiscussionPage />} />
               <Route path="attendance" element={<AttendancePage />} />
+              <Route path="poll" element={<PollPage />} />
               <Route path="register" element={<RegisterPage />} />
+
               <Route
                 path="login"
                 element={<LoginPage logged={logged} setLogged={setLogged} />}
               />
-              <Route path="poll" element={<PollPage />} /> 
             </Routes>
           </Layout>
         </LocalizationProvider>

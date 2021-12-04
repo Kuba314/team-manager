@@ -60,6 +60,10 @@ function Post({ post, handleDelete, fetchData }) {
     fetchData();
     setEditOpenComment(false);
   };
+  const convDate = () => {
+    let date = new Date(post.created);
+    return date.toLocaleString();
+  };
 
   const [comments, setComments] = useState([]); //Fetches the posts, temporarily from fakeDB
 
@@ -77,6 +81,7 @@ function Post({ post, handleDelete, fetchData }) {
       />
       <AddDialogComment
         postId={post._id}
+        fetchData={fetchData}
         open={openComment}
         handleClose={handleCloseComment}
       />
@@ -123,10 +128,7 @@ function Post({ post, handleDelete, fetchData }) {
           </Box>
           <Box className={classes.rightAlign}>
             <Typography variant="body2" color="text.secondary">
-              {post.dateCreated}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {post.timeCreated}
+              {convDate(post.created)}
             </Typography>
           </Box>
         </CardActions>
@@ -140,7 +142,12 @@ function Post({ post, handleDelete, fetchData }) {
             Přidat komentář
           </Button>
           {post.comments.map((comment) => (
-            <Comment key={comment._id} post={post} comment={comment}></Comment>
+            <Comment
+              key={comment._id}
+              fetchData={fetchData}
+              post={post}
+              comment={comment}
+            ></Comment>
           ))}
         </Collapse>
       </Card>

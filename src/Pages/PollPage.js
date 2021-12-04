@@ -63,10 +63,10 @@ function PollPage() {
       </div>
       <div className={classes.cont}>
         {/*Container for posts*/}
-        <Grid container>
+        <Grid container spacing={3}>
           {polls.reverse().map((poll) => (
             <Grid item key={poll._id} xs={12}>
-              <Poll poll={poll}></Poll>
+              <Poll poll={poll} fetchData={fetchData}></Poll>
             </Grid>
           ))}
         </Grid>

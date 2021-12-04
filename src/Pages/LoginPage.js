@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   addComponent: {
@@ -13,6 +14,7 @@ const useStyles = makeStyles({
 });
 
 function LoginPage({ setLogged, logged }) {
+  const navigate = useNavigate();
   const classes = useStyles();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +31,9 @@ function LoginPage({ setLogged, logged }) {
     })
       .then((response) => response.json())
       .then((data) => localStorage.setItem("token", data.token))
-      .then(localStorage.setItem("user", username));
+      .then(localStorage.setItem("user", username))
+      .then(setLogged(true))
+      .then(() => navigate("/discussion"));
   };
 
   return (

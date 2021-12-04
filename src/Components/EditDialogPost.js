@@ -19,24 +19,32 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 const useStyles = makeStyles({
   postText: {
-    marginBottom: "5px",
+    paddingTop: "10px",
   },
   categories: {
     marginTop: "5px",
   },
 });
 
-function AddDialog({ open, handleClose, url, id }) {
+function EditDialogPost({
+  open,
+  handleClose,
+  url,
+  id,
+  pstTitle,
+  pstBody,
+  pstCategory,
+}) {
   let dateCreated = dateCreator();
   let author = "Charlie";
   const classes = useStyles();
-  const [category, setCategory] = useState("cat1");
+  const [category, setCategory] = useState(pstCategory);
   let value;
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [title, setTitle] = useState(pstTitle);
+  const [body, setBody] = useState(pstBody);
   const [errTitle, setErrTitle] = useState(false);
   const [errBody, setErrBody] = useState(false);
   const handleSubmit = (e) => {
@@ -68,29 +76,31 @@ function AddDialog({ open, handleClose, url, id }) {
       }),
     }).then(handleClose());
   };
+
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Nový příspěvek</DialogTitle>
+        <DialogTitle>Změna příspěvku</DialogTitle>
         <DialogContent>
-          <div className={classes.postText}>
-            <TextField
-              onChange={(e) => setTitle(e.target.value)}
-              error={errTitle}
-              autoFocus
-              required
-              margin="dense"
-              id="title"
-              label="Titulek"
-              type="text"
-              fullWidth
-              variant="outlined"
-            />
-          </div>
+          <TextField
+            onChange={(e) => setTitle(e.target.value)}
+            error={errTitle}
+            autoFocus
+            required
+            defaultValue={pstTitle}
+            margin="dense"
+            id="title"
+            label="Titulek"
+            type="text"
+            fullWidth
+            variant="outlined"
+          />
           <TextField
             onChange={(e) => setBody(e.target.value)}
             error={errBody}
             required
+            defaultValue={pstBody}
+            className={classes.postText}
             size="large"
             rows={6}
             id="title"
@@ -104,7 +114,7 @@ function AddDialog({ open, handleClose, url, id }) {
             <FormLabel component="legend">Kategorie</FormLabel>
             <RadioGroup
               row
-              defaultValue="cat1"
+              defaultValue={pstCategory}
               aria-label="Kategorie"
               name="controlled-radio-buttons-group"
               value={value}
@@ -138,7 +148,7 @@ function AddDialog({ open, handleClose, url, id }) {
             Zrušit
           </Button>
           <Button size="large" onClick={handleSubmit}>
-            Přidat
+            Potvrdit
           </Button>
         </DialogActions>
       </Dialog>
@@ -146,4 +156,4 @@ function AddDialog({ open, handleClose, url, id }) {
   );
 }
 
-export default AddDialog;
+export default EditDialogPost;

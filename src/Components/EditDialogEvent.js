@@ -1,4 +1,5 @@
 import React from "react";
+
 import { useState, useEffect } from "react";
 import {
   Button,
@@ -31,46 +32,38 @@ const useStyles = makeStyles({
   },
 });
 
-function AddDialogEvent({ open, handleClose, fetchData }) {
+function EditDialogEvent({
+  open,
+  handleClose,
+  eventCategory,
+  event,
+  fetchData,
+}) {
   const [dateValue, setDateValue] = React.useState(new Date());
   const [timeValue, setTimeValue] = React.useState(new Date());
-  const [datetimeValue, setDateTimeValue] = React.useState(new Date());
-
+  let dateCreated = dateCreator();
+  let author = "Charlie";
   const classes = useStyles();
-  const [category, setCategory] = useState("practice");
+  const [category, setCategory] = useState("cat1");
   let value;
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [errTitle, setErrTitle] = useState(false);
-  const [errBody, setErrBody] = useState(false);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrTitle(false);
-    setErrBody(false);
 
-    if (body === "") {
-      setErrBody(true);
-    }
-    if (title === "") {
-      setErrTitle(true);
-    }
-
-    if (title === "" || body === "") {
-      return;
-    }
-    fetch("http://localhost:3000/addevent", {
+  const handleSubmit = () => {
+    fetch("http://localhost:3000/editevent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: title,
-        body: category,
-        time: datetimeValue,
-        location: body,
+        event_id: event._id,
+        title: event.title,
+        body: event.body,
+        time: timeValue,
+        location: event.location,
         token: localStorage.getItem("token"),
       }),
     })
@@ -80,14 +73,14 @@ function AddDialogEvent({ open, handleClose, fetchData }) {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Nová událost</DialogTitle>
+        <DialogTitle>Změnit příspěvek</DialogTitle>
         <DialogContent className={classes.wrapper}>
           <div className={classes.postText}>
             <TextField
               onChange={(e) => setTitle(e.target.value)}
               autoFocus
+              defaultValue={event.title}
               margin="dense"
-              error={errTitle}
               id="title"
               label="Popis"
               type="text"
@@ -97,51 +90,31 @@ function AddDialogEvent({ open, handleClose, fetchData }) {
           </div>
           <TextField
             onChange={(e) => setBody(e.target.value)}
+            className={classes.postText}
+            defaultValue={event.body}
             size="large"
-            error={errBody}
             rows={2}
+            id="title"
             multiline
             label="Místo"
             type="text"
             fullWidth
             variant="outlined"
           ></TextField>
-
           <div className={classes.bottomtexts}>
             <DatePicker
-              className={classes.date}
-              label="Datum"
-              margin="dense"
+              label="Čas"
               value={dateValue}
               onChange={(newValue) => {
-                let datetime = new Date(
-                  newValue.getFullYear(),
-                  newValue.getMonth(),
-                  newValue.getDate(),
-                  timeValue.getHours(),
-                  timeValue.getMinutes(),
-                  timeValue.getSeconds()
-                );
                 setDateValue(newValue);
-                setDateTimeValue(datetime);
               }}
               renderInput={(params) => <TextField {...params} />}
             />
-
             <TimePicker
-              label="Čas"
+              label="Datum"
               value={timeValue}
               onChange={(newValue) => {
-                let datetime = new Date(
-                  dateValue.getFullYear(),
-                  dateValue.getMonth(),
-                  dateValue.getDate(),
-                  newValue.getHours(),
-                  newValue.getMinutes(),
-                  newValue.getSeconds()
-                );
                 setTimeValue(newValue);
-                setDateTimeValue(datetime);
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -150,19 +123,19 @@ function AddDialogEvent({ open, handleClose, fetchData }) {
             <FormLabel component="legend">Typ události</FormLabel>
             <RadioGroup
               row
+              defaultValue={event.body}
               aria-label="Kategorie"
-              defaultValue="practice"
               name="controlled-radio-buttons-group"
               value={value}
               onChange={handleChange}
             >
               <FormControlLabel
-                value="practice"
+                value="tournament"
                 control={<Radio />}
                 label="Trénink"
               />
               <FormControlLabel
-                value="tournament"
+                value="practice"
                 control={<Radio />}
                 label="Turnaj"
               />
@@ -187,4 +160,4 @@ function AddDialogEvent({ open, handleClose, fetchData }) {
   );
 }
 
-export default AddDialogEvent;
+export default EditDialogEvent;

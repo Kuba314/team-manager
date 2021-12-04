@@ -66,14 +66,17 @@ function AttendancePage() {
     setValue(newValue);
   };
   let categories = {
-    0: "tournament",
-    1: "practice",
-    2: "cat3",
-    3: "cat4",
+    0: "practice",
+    1: "tournament",
+    2: "teambuilding",
   };
   return (
     <div>
-      <AddDialogEvent open={open} handleClose={handleClose} />
+      <AddDialogEvent
+        open={open}
+        handleClose={handleClose}
+        fetchData={fetchData}
+      />
       <div className={classes.addButton}>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Přidat příspěvek
@@ -89,6 +92,7 @@ function AttendancePage() {
           {/*Filters eventss based on category, then creates a events component from them*/}
           {events
             .filter((event) => event.body === categories[selectedCategory])
+            .reverse()
             .map((event) => (
               <Grid item key={event._id} xs={12} md={6} lg={4}>
                 <Event handleDelete={handleDelete} event={event}></Event>

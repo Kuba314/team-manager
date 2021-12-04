@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { makeStyles } from "@mui/styles";
 
-function AddDialogComment({ postId, open, handleClose }) {
+function AddDialogComment({ postId, open, handleClose, fetchData }) {
   const [body, setBody] = useState("");
   const handleSubmit = () => {
     fetch("http://localhost:3000/comment", {
@@ -21,7 +21,9 @@ function AddDialogComment({ postId, open, handleClose }) {
         post_id: postId,
         token: localStorage.getItem("token"),
       }),
-    }).then(handleClose());
+    })
+      .then(fetchData())
+      .then(handleClose());
   };
   return (
     <div>

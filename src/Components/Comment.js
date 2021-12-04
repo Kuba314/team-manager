@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Comment({ comment }) {
+function Comment({ comment, fetchData }) {
   const classes = useStyles();
   return (
     <div align="left">
@@ -57,7 +57,7 @@ function Comment({ comment }) {
                   comment_id: comment._id,
                   token: localStorage.getItem("token"),
                 }),
-              });
+              }).then(fetchData());
             }}
           >
             <DeleteIcon />
