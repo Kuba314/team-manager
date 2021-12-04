@@ -71,13 +71,11 @@ function Post({ post, handleDelete, fetchData }) {
   return (
     <div>
       <EditDialogPost
+        fetchData={fetchData}
         open={openEditComment}
         handleClose={handleEditCloseComment}
         url={"http://localhost:3000/editpost"}
-        id={post._id}
-        pstTitle={post.title}
-        pstBody={post.body}
-        pstCategory={post.category}
+        post={post}
       />
       <AddDialogComment
         postId={post._id}
@@ -128,7 +126,7 @@ function Post({ post, handleDelete, fetchData }) {
           </Box>
           <Box className={classes.rightAlign}>
             <Typography variant="body2" color="text.secondary">
-              {convDate(post.created)}
+              {convDate(post.created).slice(0, -3)}
             </Typography>
           </Box>
         </CardActions>

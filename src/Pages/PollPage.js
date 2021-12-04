@@ -37,6 +37,19 @@ function PollPage() {
     setOpen(false);
   };
 
+  const handleDelete = (id) => {
+    fetch("http://localhost:3000/deletepoll", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        poll_id: id,
+        token: localStorage.getItem("token"),
+      }),
+    });
+    const newPolls = polls.filter((poll) => id != poll._id);
+    setPolls(newPolls);
+  };
+
   const [polls, setPolls] = useState([]);
   const fetchData = () => {
     fetch("http://localhost:3000/polls")
@@ -66,7 +79,13 @@ function PollPage() {
         <Grid container spacing={3}>
           {polls.reverse().map((poll) => (
             <Grid item key={poll._id} xs={12}>
-              <Poll poll={poll} fetchData={fetchData}></Poll>
+              <Poll
+                polls={polls}
+                setPolls={setPolls}
+                poll={poll}
+                fetchData={fetchData}
+                handleDelete={handleDelete}
+              ></Poll>
             </Grid>
           ))}
         </Grid>

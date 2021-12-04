@@ -9,8 +9,9 @@ import {
   Button,
   ListItem,
   Typography,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
-import Graph from "./Graph";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
@@ -30,7 +31,13 @@ const useStyles = makeStyles({
   },
 });
 
-function Polls({ poll, fetchData }) {
+function Polls({ poll, fetchData, polls, setPolls, handleDelete }) {
+  const [selected, setSelected] = React.useState();
+  const handleSelected = (event, newSelected) => {
+    if (newSelected !== null) {
+      setSelected(newSelected);
+    }
+  };
   let arr = [];
   const help = (poll) => {
     let mySet = new Set();
@@ -58,31 +65,44 @@ function Polls({ poll, fetchData }) {
             <Typography>Možnosti</Typography>
 
             <ListItem>
-              {poll.options.map((option) => (
-                <Button
-                  className={classes.options}
-                  variant="outlined"
-                  size="large"
-                  onClick={() => {
-                    console.log(option);
-                    fetch("http://localhost:3000/vote", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        poll_id: poll._id,
-                        option: option,
-                        token: localStorage.getItem("token"),
-                      }),
-                    })
-                      .then(fetchData())
-                      .then(help(poll));
-                  }}
-                >
-                  {option}
-                </Button>
-              ))}
+              <ToggleButtonGroup
+                variant="text"
+                className={classes.btnGroup}
+                value={selected}
+                onChange={handleSelected}
+                exclusive
+              >
+                {poll.options.map((option) => (
+                  <ToggleButton
+                    className={classes.options}
+                    variant="outlined"
+                    value={option}
+                    size="large"
+                    onClick={() => {
+                      console.log(option);
+                      fetch("http://localhost:3000/vote", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          poll_id: poll._id,
+                          option: option,
+                          token: localStorage.getItem("token"),
+                        }),
+                      })
+                        .then(() => {
+                          fetch("http://localhost:3000/polls")
+                            .then((res) => res.json())
+                            .then((data) => setPolls(data));
+                        })
+                        .then(help(poll));
+                    }}
+                  >
+                    {option}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
               {poll.options.map((opt) => {
                 let i = 0;
                 for (const voter of poll.votes) {
@@ -122,7 +142,9 @@ function Polls({ poll, fetchData }) {
         </CardContent>
         <CardActions>
           <Box>
-            <Button size="large">Kdo přijde</Button>
+            <Button size="large" onClick={() => handleDelete(poll._id)}>
+              Delete
+            </Button>
           </Box>
           <Box></Box>
         </CardActions>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   TextField,
@@ -13,7 +13,6 @@ import { makeStyles } from "@mui/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import dateCreator from "../Helpers/dateCreator";
 
 import DialogTitle from "@mui/material/DialogTitle";
 
@@ -26,32 +25,24 @@ const useStyles = makeStyles({
   },
 });
 
-function EditDialogPost({
-  open,
-  handleClose,
-  url,
-  id,
-  pstTitle,
-  pstBody,
-  pstCategory,
-}) {
-  let dateCreated = dateCreator();
-  let author = "Charlie";
+function EditDialogPost({ open, handleClose, url, post, fetchData }) {
   const classes = useStyles();
-  const [category, setCategory] = useState(pstCategory);
+  const [category, setCategory] = useState(post.category);
   let value;
+  //Set categories based on selected radio button
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
-  const [title, setTitle] = useState(pstTitle);
-  const [body, setBody] = useState(pstBody);
+  const [title, setTitle] = useState(post.title);
+  const [body, setBody] = useState(post.body);
+  //Hooks for validation
   const [errTitle, setErrTitle] = useState(false);
   const [errBody, setErrBody] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrTitle(false);
     setErrBody(false);
-
+    //Check whether one of the fields is empty
     if (body === "") {
       setErrBody(true);
     }
@@ -62,19 +53,22 @@ function EditDialogPost({
     if (title === "" || body === "") {
       return;
     }
+    //make a request to edit the post
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        post_id: id,
+        post_id: post._id,
         title: title,
         body: body,
         category: category,
         token: localStorage.getItem("token"),
       }),
-    }).then(handleClose());
+    })
+      .then(fetchData())
+      .then(handleClose());
   };
 
   return (
@@ -82,12 +76,13 @@ function EditDialogPost({
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Změna příspěvku</DialogTitle>
         <DialogContent>
+          {/*Text field for title*/}
           <TextField
             onChange={(e) => setTitle(e.target.value)}
             error={errTitle}
             autoFocus
             required
-            defaultValue={pstTitle}
+            defaultValue={post.title}
             margin="dense"
             id="title"
             label="Titulek"
@@ -95,11 +90,12 @@ function EditDialogPost({
             fullWidth
             variant="outlined"
           />
+          {/*Text field for title*/}
           <TextField
             onChange={(e) => setBody(e.target.value)}
             error={errBody}
             required
-            defaultValue={pstBody}
+            defaultValue={post.body}
             className={classes.postText}
             size="large"
             rows={6}
@@ -110,11 +106,12 @@ function EditDialogPost({
             fullWidth
             variant="outlined"
           ></TextField>
+          {/*Radio button group for selecting a category*/}
           <FormControl className={classes.categories} component="fieldset">
             <FormLabel component="legend">Kategorie</FormLabel>
             <RadioGroup
               row
-              defaultValue={pstCategory}
+              defaultValue={post.category}
               aria-label="Kategorie"
               name="controlled-radio-buttons-group"
               value={value}
@@ -143,6 +140,7 @@ function EditDialogPost({
             </RadioGroup>
           </FormControl>
         </DialogContent>
+        {/*Buttons for closing the dialog and submiting it*/}
         <DialogActions>
           <Button size="large" onClick={handleClose}>
             Zrušit

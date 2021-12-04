@@ -12,10 +12,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemButton,
   ListItemText,
-  Typography,
-  Avatar,
   Collapse,
   Grid,
   Box,
@@ -28,13 +25,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { makeStyles } from "@mui/styles";
 import EditDialogEvent from "./EditDialogEvent";
 const useStyles = makeStyles({
-  notComeBtn: {
-    //backgroundColor: "",
-    backgroundColor: "#856565",
-    "&:hover": {
-      backgroundColor: "#cc6262",
-    },
-  },
   comeBtn: {
     backgroundColor: "#6a8565",
     "&:hover": {
@@ -56,7 +46,6 @@ const useStyles = makeStyles({
 function Event({ event, handleDelete }) {
   let selgreen = "#67cc62";
   let green = "#6a8565";
-  let gray = "#8e918f";
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [events, setEvents] = useState([]);
@@ -77,7 +66,6 @@ function Event({ event, handleDelete }) {
     setExpanded(!expanded);
   };
 
-  const [attending, setAttending] = useState();
   const [attends, setAttends] = useState([]);
 
   const help = () => {
@@ -177,7 +165,7 @@ function Event({ event, handleDelete }) {
               </ListItemIcon>
               <ListItemText
                 primary="Čas"
-                secondary={convDate(event.time.toLocaleString())}
+                secondary={convDate(event.time.toLocaleString()).slice(0, -3)}
               />
             </ListItem>
           </List>

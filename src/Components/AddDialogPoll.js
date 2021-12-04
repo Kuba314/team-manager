@@ -128,18 +128,16 @@ function AddDialog({ open, handleClose, options, votes }) {
                   className="button remove"
                   onClick={() => removeFormFields(index)}
                 >
-                  Remove
+                  Odstranit možnost
                 </Button>
               ) : null}
             </div>
           ))}
           <div className="button-section">
-            <Button onClick={() => addFormFields()}>Add</Button>
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button onClick={() => addFormFields()}>Přidat možnost</Button>
           </div>
         </DialogContent>
         <DialogActions>
-          <Button size="large">Přidat odpověd</Button>
           <Button
             size="large"
             onClick={() => {

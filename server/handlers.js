@@ -496,10 +496,11 @@ module.exports = {
       } else if (!poll) {
         send(res, 404, "Poll not found");
       } else {
+        /*
         if (poll.author != req.session.userid) {
           send(res, 403, "Only author can delete this poll");
           return;
-        }
+        }*/
         Poll.deleteOne({ _id: req.body.poll_id }, (err) => {
           if (err) {
             send(res, 500, err);

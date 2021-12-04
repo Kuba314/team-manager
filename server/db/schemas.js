@@ -76,7 +76,7 @@ const pollSchema = new Schema({
         type: mongoose.ObjectId,
         ref: "User",
       },
-      voted_option: Number,
+      voted_option: String,
     },
   ],
 });

@@ -32,25 +32,18 @@ const useStyles = makeStyles({
   },
 });
 
-function EditDialogEvent({
-  open,
-  handleClose,
-  eventCategory,
-  event,
-  fetchData,
-}) {
+function EditDialogEvent({ open, handleClose, event, fetchData }) {
   const [dateValue, setDateValue] = React.useState(new Date());
   const [timeValue, setTimeValue] = React.useState(new Date());
-  let dateCreated = dateCreator();
-  let author = "Charlie";
+  const [datetimeValue, setDateTimeValue] = React.useState(event.time);
   const classes = useStyles();
-  const [category, setCategory] = useState("cat1");
+  const [category, setCategory] = useState(event.body);
   let value;
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [title, setTitle] = useState(event.title);
+  const [body, setBody] = useState(event.location);
 
   const handleSubmit = () => {
     fetch("http://localhost:3000/editevent", {
@@ -60,10 +53,10 @@ function EditDialogEvent({
       },
       body: JSON.stringify({
         event_id: event._id,
-        title: event.title,
-        body: event.body,
+        title: title,
+        body: category,
         time: timeValue,
-        location: event.location,
+        location: body,
         token: localStorage.getItem("token"),
       }),
     })
@@ -91,7 +84,7 @@ function EditDialogEvent({
           <TextField
             onChange={(e) => setBody(e.target.value)}
             className={classes.postText}
-            defaultValue={event.body}
+            defaultValue={event.location}
             size="large"
             rows={2}
             id="title"
@@ -106,7 +99,16 @@ function EditDialogEvent({
               label="Čas"
               value={dateValue}
               onChange={(newValue) => {
+                let datetime = new Date(
+                  newValue.getFullYear(),
+                  newValue.getMonth(),
+                  newValue.getDate(),
+                  timeValue.getHours(),
+                  timeValue.getMinutes(),
+                  timeValue.getSeconds()
+                );
                 setDateValue(newValue);
+                setDateTimeValue(datetime);
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -114,7 +116,16 @@ function EditDialogEvent({
               label="Datum"
               value={timeValue}
               onChange={(newValue) => {
+                let datetime = new Date(
+                  dateValue.getFullYear(),
+                  dateValue.getMonth(),
+                  dateValue.getDate(),
+                  newValue.getHours(),
+                  newValue.getMinutes(),
+                  newValue.getSeconds()
+                );
                 setTimeValue(newValue);
+                setDateTimeValue(datetime);
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -130,12 +141,12 @@ function EditDialogEvent({
               onChange={handleChange}
             >
               <FormControlLabel
-                value="tournament"
+                value="practice"
                 control={<Radio />}
                 label="Trénink"
               />
               <FormControlLabel
-                value="practice"
+                value="tournament"
                 control={<Radio />}
                 label="Turnaj"
               />

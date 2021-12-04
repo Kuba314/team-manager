@@ -26,9 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-function AddDialog({ open, handleClose, url, id }) {
-  let dateCreated = dateCreator();
-  let author = "Charlie";
+function AddDialog({ open, handleClose, url, id, fetchData }) {
   const classes = useStyles();
   const [category, setCategory] = useState("cat1");
   let value;
@@ -66,7 +64,9 @@ function AddDialog({ open, handleClose, url, id }) {
         category: category,
         token: localStorage.getItem("token"),
       }),
-    }).then(handleClose());
+    })
+      .then(fetchData())
+      .then(handleClose());
   };
   return (
     <div>

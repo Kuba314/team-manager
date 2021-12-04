@@ -29,7 +29,7 @@ function DiscussionPage({ ondiscussion }) {
   const classes = useStyles(); //This enables custom css overrides
 
   const [open, setOpen] = useState(false);
-
+  //functions for handling the dialog opening
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,7 +38,7 @@ function DiscussionPage({ ondiscussion }) {
     fetchData();
     setOpen(false);
   };
-  const [posts, setPosts] = useState([]); //Fetches the posts, temporarily from fakeDB
+  const [posts, setPosts] = useState([]); //Fetches the posts
   const fetchData = () => {
     fetch("http://localhost:3000/posts")
       .then((res) => res.json())
@@ -47,8 +47,8 @@ function DiscussionPage({ ondiscussion }) {
       });
   };
   useEffect(fetchData, []);
-
-  //useInterval(fetchData, 5000);
+  //Periodically fetch the posts
+  useInterval(fetchData, 5000);
   // uses a useState hook to change categories
   const [selectedCategory, setValue] = useState(0);
 
@@ -61,7 +61,7 @@ function DiscussionPage({ ondiscussion }) {
     2: "cat3",
     3: "cat4",
   };
-
+  //Delete a post, re-render the page with the new values
   const handleDelete = (id) => {
     fetch("http://localhost:3000/deletepost", {
       method: "POST",
@@ -78,6 +78,7 @@ function DiscussionPage({ ondiscussion }) {
   return (
     <div>
       <AddDialogPost
+        fetchData={fetchData}
         open={open}
         handleClose={handleClose}
         url={"http://localhost:3000/addPost"}
