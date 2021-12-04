@@ -47,7 +47,19 @@ function Comment({ comment }) {
             </Typography>
             <Typography color="#EFEFEF">{comment.text}</Typography>
           </div>
-          <IconButton className={classes.dltBtn}>
+          <IconButton
+            className={classes.dltBtn}
+            onClick={() => {
+              fetch("http://localhost:3000/deletecomment", {
+                method: "POST",
+                headers: { "Content-type": "application/json" },
+                body: JSON.stringify({
+                  comment_id: comment._id,
+                  token: localStorage.getItem("token"),
+                }),
+              });
+            }}
+          >
             <DeleteIcon />
           </IconButton>
         </div>

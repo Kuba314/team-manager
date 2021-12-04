@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-function AddDialog({ open, handleClose }) {
+function AddDialog({ open, handleClose, url, id }) {
   let dateCreated = dateCreator();
   let author = "Charlie";
   const classes = useStyles();
@@ -54,12 +54,13 @@ function AddDialog({ open, handleClose }) {
     if (title === "" || body === "") {
       return;
     }
-    fetch("http://localhost:3000/addPost", {
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        post_id: id,
         title: title,
         body: body,
         category: category,
@@ -93,7 +94,7 @@ function AddDialog({ open, handleClose }) {
             rows={6}
             id="title"
             multiline
-            label="Text příspěvku"
+            label={"Text příspěvku"}
             type="text"
             fullWidth
             variant="outlined"
@@ -111,12 +112,22 @@ function AddDialog({ open, handleClose }) {
               <FormControlLabel
                 value="cat1"
                 control={<Radio />}
-                label="Category1"
+                label="Tréninky"
               />
               <FormControlLabel
                 value="cat2"
                 control={<Radio />}
-                label="Category2"
+                label="Turnaje"
+              />
+              <FormControlLabel
+                value="cat3"
+                control={<Radio />}
+                label="Hospoda"
+              />
+              <FormControlLabel
+                value="cat4"
+                control={<Radio />}
+                label="Organizace"
               />
             </RadioGroup>
           </FormControl>

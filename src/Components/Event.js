@@ -23,6 +23,7 @@ import {
 import AttendanceAvatar from "./AttendanceAvatar";
 import CloseIcon from "@mui/icons-material/Close";
 import { makeStyles } from "@mui/styles";
+import EditDialogEvent from "./EditDialogEvent";
 const useStyles = makeStyles({
   notComeBtn: {
     //backgroundColor: "",
@@ -43,9 +44,13 @@ const useStyles = makeStyles({
   rightAlign: {
     marginLeft: "auto",
   },
+  dltBtn: {
+    display: "flex",
+    alignItems: "flex-start",
+  },
 });
 
-function Event({ event }) {
+function Event({ event, handleDelete }) {
   let selgreen = "#67cc62";
   let green = "#6a8565";
   let gray = "#8e918f";
@@ -69,6 +74,7 @@ function Event({ event }) {
     setExpanded(!expanded);
   };
 
+  const [attending, setAttending] = useState();
   const [attends, setAttends] = useState([]);
 
   const help = () => {
@@ -77,12 +83,12 @@ function Event({ event }) {
     });
 
     console.log(filtered.attendees);
-    setAttends(filtered.attendees);
   };
   const func = (data) => {
     var filtered = data.find((ldevent) => {
       return ldevent._id === event._id;
     });
+    setAttends(filtered.attendees);
     for (const attend of filtered.attendees) {
       if (attend.name === localStorage.getItem("user")) {
         setColor(selgreen);
@@ -90,10 +96,69 @@ function Event({ event }) {
       }
     }
   };
+  const leave = (filtered) => {
+    fetch("http://localhost:3000/leaveevent", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        event_id: filtered._id,
+        token: localStorage.getItem("token"),
+      }),
+    });
 
+    fetchData();
+    setColor(green);
+
+    return;
+  };
+  const join = () => {
+    var filtered = events.find((ldevent) => {
+      return ldevent._id === event._id;
+    });
+
+    console.log(filtered);
+    for (const attend of filtered.attendees) {
+      if (attend.name === localStorage.getItem("user")) {
+        leave(filtered);
+        return;
+      }
+    }
+    fetch("http://localhost:3000/joinevent", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        event_id: filtered._id,
+        token: localStorage.getItem("token"),
+      }),
+    });
+    fetchData();
+  };
+  const [openEditEvent, setEditOpenEvent] = useState(false);
+
+  const handleClickEditOpenEvent = () => {
+    setEditOpenEvent(true);
+  };
+
+  const handleEditCloseEvent = () => {
+    setEditOpenEvent(false);
+  };
   const [colorCome, setColor] = useState("#6a8565");
+
+  const convDate = () => {
+    let date = new Date(event.time);
+    return date.toLocaleString();
+  };
   return (
     <div>
+      <EditDialogEvent
+        open={openEditEvent}
+        handleClose={handleEditCloseEvent}
+        url={"http://localhost:3000/editpost"}
+        id={event._id}
+        eventTitle={event.title}
+        eventBody={event.location}
+        eventCategory={event.body}
+      />
       <Card align="center">
         <CardHeader title={event.title} subheader={event.category} />
 
@@ -111,10 +176,14 @@ function Event({ event }) {
               </ListItemIcon>
               <ListItemText
                 primary="Čas"
-                secondary={event.time.toLocaleString()}
+                secondary={convDate(event.time.toLocaleString())}
               />
             </ListItem>
           </List>
+          <Box className={classes.dltBtn}>
+            <Button onClick={() => handleDelete(event._id)}>Smazat</Button>
+            <Button onClick={handleClickEditOpenEvent}>Edit</Button>
+          </Box>
         </CardContent>
         <CardActions>
           <Box className={classes.leftAlign}>
@@ -128,43 +197,8 @@ function Event({ event }) {
               variant="contained"
               style={{ backgroundColor: colorCome }}
               onClick={() => {
-                if (colorCome === green) {
-                  setColor(selgreen);
-                }
-                if (colorCome === selgreen) {
-                  setColor(green);
-                }
                 fetchData();
-                var filtered = events.find((ldevent) => {
-                  return ldevent._id === event._id;
-                });
-
-                console.log(filtered);
-                for (const attend of filtered.attendees) {
-                  if (attend.name === localStorage.getItem("user")) {
-                    fetch("http://localhost:3000/leaveevent", {
-                      method: "POST",
-                      headers: { "Content-type": "application/json" },
-                      body: JSON.stringify({
-                        event_id: filtered._id,
-                        token: localStorage.getItem("token"),
-                      }),
-                    });
-                    fetchData();
-
-                    return;
-                  }
-                }
-
-                fetch("http://localhost:3000/joinevent", {
-                  method: "POST",
-                  headers: { "Content-type": "application/json" },
-                  body: JSON.stringify({
-                    event_id: filtered._id,
-                    token: localStorage.getItem("token"),
-                  }),
-                });
-                fetchData();
+                join();
               }}
             >
               <DoneIcon></DoneIcon>Přijdu
@@ -174,7 +208,10 @@ function Event({ event }) {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Grid container spacing={1.5}>
             {attends.map((attend) => (
-              <AttendanceAvatar user={attend}></AttendanceAvatar>
+              <AttendanceAvatar
+                key={attend._id}
+                user={attend}
+              ></AttendanceAvatar>
             ))}
           </Grid>
         </Collapse>

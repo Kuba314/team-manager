@@ -46,6 +46,19 @@ function AttendancePage() {
       .then((res) => res.json())
       .then((data) => setEvents(data));
   };
+
+  const handleDelete = (id) => {
+    fetch("http://localhost:3000/deleteevent", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        event_id: id,
+        token: localStorage.getItem("token"),
+      }),
+    });
+    const newEvents = events.filter((event) => id != event._id);
+    setEvents(newEvents);
+  };
   useEffect(fetchData, []);
   const [selectedCategory, setValue] = useState(0);
 
@@ -74,11 +87,13 @@ function AttendancePage() {
       <div className={classes.cont}>
         <Grid container spacing={3}>
           {/*Filters eventss based on category, then creates a events component from them*/}
-          {events.map((event) => (
-            <Grid item key={event.id} xs={12} md={6} lg={4}>
-              <Event event={event}></Event>
-            </Grid>
-          ))}
+          {events
+            .filter((event) => event.body === categories[selectedCategory])
+            .map((event) => (
+              <Grid item key={event._id} xs={12} md={6} lg={4}>
+                <Event handleDelete={handleDelete} event={event}></Event>
+              </Grid>
+            ))}
         </Grid>
       </div>
     </div>

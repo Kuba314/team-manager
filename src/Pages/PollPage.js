@@ -37,29 +37,20 @@ function PollPage() {
     setOpen(false);
   };
 
-  const [posts, setPosts] = useState([]);
+  const [polls, setPolls] = useState([]);
   const fetchData = () => {
-    fetch("http://localhost:3000/posts")
+    fetch("http://localhost:3000/polls")
       .then((res) => res.json())
-      .then((data) => setPosts(data));
+      .then((data) => setPolls(data));
   };
   useEffect(fetchData, []);
 
-  useInterval(fetchData, 5000);
+  //useInterval(fetchData, 5000);
 
   const [selectedCategory, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const handleDelete = async (id) => {
-    await fetch("http://localhost:3000/posts/" + id, {
-      method: "DELETE",
-      headers: { "Content-type": "application/json" },
-    });
-    const newPosts = posts.filter((post) => post.id !== id);
-    setPosts(newPosts);
   };
 
   return (
@@ -72,16 +63,12 @@ function PollPage() {
       </div>
       <div className={classes.cont}>
         {/*Container for posts*/}
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Poll></Poll>
-          </Grid>
-          <Grid item xs={12}>
-            <Poll></Poll>
-          </Grid>
-          <Grid item xs={12}>
-            <Poll></Poll>
-          </Grid>
+        <Grid container>
+          {polls.reverse().map((poll) => (
+            <Grid item key={poll._id} xs={12}>
+              <Poll poll={poll}></Poll>
+            </Grid>
+          ))}
         </Grid>
       </div>
     </div>

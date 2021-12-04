@@ -71,13 +71,17 @@ function DiscussionPage({ ondiscussion }) {
         token: localStorage.getItem("token"),
       }),
     });
-    const newPosts = posts.filter((post) => post.id !== id);
+    const newPosts = posts.filter((post) => id != post._id);
     setPosts(newPosts);
   };
 
   return (
     <div>
-      <AddDialogPost open={open} handleClose={handleClose} />
+      <AddDialogPost
+        open={open}
+        handleClose={handleClose}
+        url={"http://localhost:3000/addPost"}
+      />
       {/*Just a wrapper div as component can only return one element*/}
       <div className={classes.addButton}>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -93,11 +97,18 @@ function DiscussionPage({ ondiscussion }) {
         {/*Container for posts*/}
         <Grid container spacing={3}>
           {/*Filters posts based on category, then creates a post component from them*/}
-          {posts.reverse().map((post) => (
-            <Grid item key={post._id} xs={12}>
-              <Post post={post} handleDelete={handleDelete}></Post>
-            </Grid>
-          ))}
+          {posts
+            .reverse()
+            .filter((post) => post.category === categories[selectedCategory])
+            .map((post) => (
+              <Grid item key={post._id} xs={12}>
+                <Post
+                  post={post}
+                  handleDelete={handleDelete}
+                  fetchData={fetchData}
+                ></Post>
+              </Grid>
+            ))}
         </Grid>
       </div>
     </div>

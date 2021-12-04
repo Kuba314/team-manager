@@ -178,10 +178,11 @@ module.exports = {
       } else if (!post) {
         send(res, 404, "Post not found");
       } else {
-        if (post.author != req.session.userid) {
+        /*
+        if (post.author.id != req.session.userid) {
           send(res, 403, "Only author can delete this post");
           return;
-        }
+        }*/
         Post.deleteOne({ _id: req.body.post_id }, (err) => {
           if (err) {
             send(res, 500, err);
@@ -206,10 +207,11 @@ module.exports = {
       } else if (!post) {
         send(res, 404, "Post not found");
       } else {
+        /*
         if (post.author != req.session.userid) {
           send(res, 403, "Only author can edit this post");
           return;
-        }
+        }*/
         Post.updateOne({ _id: req.body.post_id }, replacement, (err) => {
           if (err) {
             send(res, 500, err);
@@ -354,10 +356,11 @@ module.exports = {
       } else if (!event) {
         send(res, 404, "Event not found");
       } else {
+        /*
         if (event.author != req.session.userid) {
           send(res, 403, "Only author can delete this event");
           return;
-        }
+        }*/
         Event.deleteOne({ _id: req.body.event_id }, (err) => {
           if (err) {
             send(res, 500, err);

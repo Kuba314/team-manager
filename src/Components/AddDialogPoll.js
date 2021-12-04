@@ -32,20 +32,22 @@ function AddDialog({ open, handleClose, options, votes }) {
   const classes = useStyles();
   let value;
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-
-  /*const handleSubmit = () => {
-    fetch("http://localhost:3000/posts", {
+  const [answ1, setAnsw1] = useState("");
+  const [answ2, setAnsw2] = useState("");
+  const handleSend = () => {
+    handleSubmit();
+    fetch("http://localhost:3000/addPoll", {
       method: "POST",
-      headers: { "Content-type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        title,
-        body,
-        author,
-        dateCreated,
+        prompt: title,
+        options: answers,
+        token: localStorage.getItem("token"),
       }),
     }).then(handleClose());
-  };*/
+  };
   const [formValues, setFormValues] = useState([]);
 
   let handleChange = (i, e) => {
@@ -65,10 +67,14 @@ function AddDialog({ open, handleClose, options, votes }) {
   };
 
   let handleSubmit = (event) => {
-    event.preventDefault();
     console.log(formValues);
-    alert(JSON.stringify(formValues));
+    for (const value of formValues) {
+      answers.push(value.answer);
+    }
+    alert(answers);
+    //alert(JSON.stringify(formValues[0]));
   };
+  let answers = [answ1, answ2];
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
@@ -86,7 +92,7 @@ function AddDialog({ open, handleClose, options, votes }) {
             variant="outlined"
           />
           <TextField
-            onChange={(e) => setBody(e.target.value)}
+            onChange={(e) => setAnsw1(e.target.value)}
             className={classes.postText}
             size="large"
             rows={1}
@@ -97,7 +103,7 @@ function AddDialog({ open, handleClose, options, votes }) {
             variant="outlined"
           ></TextField>
           <TextField
-            onChange={(e) => setBody(e.target.value)}
+            onChange={(e) => setAnsw2(e.target.value)}
             className={classes.postText}
             size="large"
             rows={1}
@@ -143,7 +149,7 @@ function AddDialog({ open, handleClose, options, votes }) {
           >
             Zrušit
           </Button>
-          <Button size="large" onClick={handleSubmit}>
+          <Button size="large" onClick={handleSend}>
             Přidat
           </Button>
         </DialogActions>

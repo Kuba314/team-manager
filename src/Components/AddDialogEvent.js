@@ -76,10 +76,9 @@ function AddDialogEvent({ open, handleClose }) {
             onChange={(e) => setBody(e.target.value)}
             className={classes.postText}
             size="large"
-            rows={6}
-            id="title"
+            rows={2}
             multiline
-            label="Text příspěvku"
+            label="lokace"
             type="text"
             fullWidth
             variant="outlined"
@@ -106,6 +105,7 @@ function AddDialogEvent({ open, handleClose }) {
             <RadioGroup
               row
               aria-label="Kategorie"
+              defaultValue="practice"
               name="controlled-radio-buttons-group"
               value={value}
               onChange={handleChange}
@@ -119,6 +119,11 @@ function AddDialogEvent({ open, handleClose }) {
                 value="practice"
                 control={<Radio />}
                 label="Turnaj"
+              />
+              <FormControlLabel
+                value="teambuilding"
+                control={<Radio />}
+                label="Teambuilding"
               />
             </RadioGroup>
           </FormControl>

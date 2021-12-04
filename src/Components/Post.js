@@ -18,6 +18,7 @@ import useInterval from "../Helpers/useInterval";
 import AddDialogComment from "./AddDialogComment";
 import PostAvatar from "./PostAvatar";
 import EditIcon from "@mui/icons-material/Edit";
+import EditDialogPost from "./EditDialogPost";
 
 const useStyles = makeStyles({
   rightAlign: {
@@ -31,22 +32,33 @@ const useStyles = makeStyles({
   },
 });
 
-function Post({ post, handleDelete }) {
+function Post({ post, handleDelete, fetchData }) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [openComment, setOpenComment] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenComemnt = () => {
+    setOpenComment(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseComment = () => {
+    fetchData();
+    setOpenComment(false);
   };
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [expandedComment, setExpandedComment] = React.useState(false);
 
   const handleExpandClick = () => {
-    setExpanded(!expanded);
+    setExpandedComment(!expandedComment);
+  };
+  const [openEditComment, setEditOpenComment] = useState(false);
+
+  const handleClickEditOpenComemnt = () => {
+    setEditOpenComment(true);
+  };
+
+  const handleEditCloseComment = () => {
+    fetchData();
+    setEditOpenComment(false);
   };
 
   const [comments, setComments] = useState([]); //Fetches the posts, temporarily from fakeDB
@@ -54,10 +66,19 @@ function Post({ post, handleDelete }) {
   //useInterval(fetchData, 5000);
   return (
     <div>
+      <EditDialogPost
+        open={openEditComment}
+        handleClose={handleEditCloseComment}
+        url={"http://localhost:3000/editpost"}
+        id={post._id}
+        pstTitle={post.title}
+        pstBody={post.body}
+        pstCategory={post.category}
+      />
       <AddDialogComment
         postId={post._id}
-        open={open}
-        handleClose={handleClose}
+        open={openComment}
+        handleClose={handleCloseComment}
       />
       <Card align="center">
         <CardHeader
@@ -74,6 +95,7 @@ function Post({ post, handleDelete }) {
         <CardActions>
           <Box className={classes.leftAlign}>
             <Button
+              disabled={post.author.name != localStorage.getItem("user")}
               color="primary"
               variant="text"
               onClick={() => handleDelete(post._id)}
@@ -90,9 +112,14 @@ function Post({ post, handleDelete }) {
             >
               Komentáře {post.comments.length}
             </Button>
-            <IconButton>
-              <EditIcon />
-            </IconButton>
+            {
+              <IconButton
+                disabled={post.author.name != localStorage.getItem("user")}
+                onClick={handleClickEditOpenComemnt}
+              >
+                <EditIcon />
+              </IconButton>
+            }
           </Box>
           <Box className={classes.rightAlign}>
             <Typography variant="body2" color="text.secondary">
@@ -105,15 +132,15 @@ function Post({ post, handleDelete }) {
         </CardActions>
         <Collapse
           className={classes.collapse}
-          in={expanded}
+          in={expandedComment}
           timeout="auto"
           unmountOnExit
         >
-          <Button variant="outlined" onClick={handleClickOpen}>
+          <Button variant="outlined" onClick={handleClickOpenComemnt}>
             Přidat komentář
           </Button>
           {post.comments.map((comment) => (
-            <Comment comment={comment}></Comment>
+            <Comment key={comment._id} post={post} comment={comment}></Comment>
           ))}
         </Collapse>
       </Card>
