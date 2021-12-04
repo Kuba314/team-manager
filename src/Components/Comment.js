@@ -39,11 +39,11 @@ function Comment({ comment, fetchData }) {
       >
         <div className={classes.avatar}>
           <div>
-            <Avatar>A</Avatar>
+            <Avatar>{comment.author.name[0]}</Avatar>
           </div>
           <div className={classes.content}>
             <Typography variant="h6" fontWeight="bold">
-              {comment.author}
+              {comment.author.name}
             </Typography>
             <Typography color="#EFEFEF">{comment.text}</Typography>
           </div>

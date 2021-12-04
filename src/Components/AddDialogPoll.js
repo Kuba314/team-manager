@@ -29,9 +29,10 @@ const useStyles = makeStyles({
   },
 });
 
-function AddDialog({ open, handleClose, options, votes }) {
-  let dateCreated = dateCreator();
-  let author = "Charlie";
+function AddDialog({ open, handleClose, fetchData }) {
+  const [errTitle, setErrTitle] = useState(false);
+  const [errAnsw1, setErrAnsw1] = useState(false);
+  const [errAnsw2, setErrAnsw2] = useState(false);
   const classes = useStyles();
   let value;
   const [title, setTitle] = useState("");
@@ -39,6 +40,23 @@ function AddDialog({ open, handleClose, options, votes }) {
   const [answ2, setAnsw2] = useState("");
   const handleSend = () => {
     handleSubmit();
+    setErrTitle(false);
+    setErrAnsw1(false);
+    setErrAnsw2(false);
+
+    if (answ1 === "") {
+      setErrAnsw1(true);
+    }
+    if (answ2 === "") {
+      setErrAnsw2(true);
+    }
+    if (title === "") {
+      setErrTitle(true);
+    }
+
+    if (title === "" || answ2 === "" || answ1 === "") {
+      return;
+    }
     fetch("http://localhost:3000/addPoll", {
       method: "POST",
       headers: {
@@ -49,7 +67,9 @@ function AddDialog({ open, handleClose, options, votes }) {
         options: answers,
         token: localStorage.getItem("token"),
       }),
-    }).then(handleClose());
+    })
+      .then(fetchData())
+      .then(handleClose());
   };
   const [formValues, setFormValues] = useState([]);
 
@@ -74,7 +94,7 @@ function AddDialog({ open, handleClose, options, votes }) {
     for (const value of formValues) {
       answers.push(value.answer);
     }
-    alert(answers);
+    //alert(answers);
     //alert(JSON.stringify(formValues[0]));
   };
   let answers = [answ1, answ2];
@@ -85,6 +105,7 @@ function AddDialog({ open, handleClose, options, votes }) {
         <DialogContent className={classes.wrapper}>
           <TextField
             onChange={(e) => setTitle(e.target.value)}
+            error={errTitle}
             size="large"
             margin="dense"
             rows={2}
@@ -98,6 +119,7 @@ function AddDialog({ open, handleClose, options, votes }) {
             <TextField
               onChange={(e) => setAnsw1(e.target.value)}
               className={classes.postText}
+              error={errAnsw1}
               size="large"
               rows={1}
               id="title"
@@ -109,6 +131,7 @@ function AddDialog({ open, handleClose, options, votes }) {
             <TextField
               onChange={(e) => setAnsw2(e.target.value)}
               className={classes.postText}
+              error={errAnsw2}
               size="large"
               rows={1}
               id="title"

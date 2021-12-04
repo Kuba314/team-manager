@@ -138,7 +138,7 @@ module.exports = {
       }
     })
       .populate("author")
-      .populate("comments");
+      .populate({ path: "comments", populate: { path: "author" } });
   },
   myPosts: (req, res) => {
     Post.find({ author: req.session.userid }, (err, posts) => {
@@ -149,7 +149,7 @@ module.exports = {
       }
     })
       .populate("author")
-      .populate("comments");
+      .populate({ path: "comments", populate: { path: "author" } });
   },
   addPost: (req, res) => {
     Post.create(

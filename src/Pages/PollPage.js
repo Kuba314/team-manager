@@ -69,7 +69,11 @@ function PollPage() {
 
   return (
     <div>
-      <AddDialogPoll open={open} handleClose={handleClose} />
+      <AddDialogPoll
+        fetchData={fetchData}
+        open={open}
+        handleClose={handleClose}
+      />
       <div className={classes.addButton}>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Přidat anketu
