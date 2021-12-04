@@ -31,7 +31,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Polls({ poll, fetchData, polls, setPolls, handleDelete }) {
+function Polls({ poll, setPolls, handleDelete }) {
   const [selected, setSelected] = React.useState();
   const handleSelected = (event, newSelected) => {
     if (newSelected !== null) {
@@ -143,7 +143,7 @@ function Polls({ poll, fetchData, polls, setPolls, handleDelete }) {
         <CardActions>
           <Box>
             <Button size="large" onClick={() => handleDelete(poll._id)}>
-              Delete
+              Smazat anketu
             </Button>
           </Box>
           <Box></Box>

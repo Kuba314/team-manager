@@ -24,6 +24,9 @@ const useStyles = makeStyles({
   categories: {
     marginTop: "5px",
   },
+  firstans: {
+    marginTop: "5px",
+  },
 });
 
 function AddDialog({ open, handleClose, options, votes }) {
@@ -91,34 +94,37 @@ function AddDialog({ open, handleClose, options, votes }) {
             fullWidth
             variant="outlined"
           />
-          <TextField
-            onChange={(e) => setAnsw1(e.target.value)}
-            className={classes.postText}
-            size="large"
-            rows={1}
-            id="title"
-            multiline
-            label="Odpověď1"
-            type="text"
-            variant="outlined"
-          ></TextField>
-          <TextField
-            onChange={(e) => setAnsw2(e.target.value)}
-            className={classes.postText}
-            size="large"
-            rows={1}
-            id="title"
-            multiline
-            label="Odpověď2"
-            type="text"
-            variant="outlined"
-          ></TextField>
+          <div className={classes.firstans}>
+            <TextField
+              onChange={(e) => setAnsw1(e.target.value)}
+              className={classes.postText}
+              size="large"
+              rows={1}
+              id="title"
+              multiline
+              label="Odpověď 1"
+              type="text"
+              variant="outlined"
+            ></TextField>
+            <TextField
+              onChange={(e) => setAnsw2(e.target.value)}
+              className={classes.postText}
+              size="large"
+              rows={1}
+              id="title"
+              multiline
+              label="Odpověď 2"
+              type="text"
+              variant="outlined"
+            ></TextField>
+          </div>
           {formValues.map((element, index) => (
             <div className="form-inline" key={index}>
               <TextField
                 type="text"
                 name="answer"
                 label="Odpověď"
+                margin="dense"
                 value={element.answer || ""}
                 onChange={(e) => handleChange(index, e)}
               />

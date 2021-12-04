@@ -27,7 +27,10 @@ function Navbar(logged, setLogged) {
       setSelected(newSelected);
     }
   };
-  if (localStorage.getItem("user") === null) {
+  if (
+    localStorage.getItem("user") === null ||
+    localStorage.getItem("user") === ""
+  ) {
     return (
       <AppBar enableColorOnDark color="default" position="static">
         <Toolbar>
