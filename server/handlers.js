@@ -129,7 +129,7 @@ module.exports = {
             } else {
                 send(res, 200, posts)
             }
-        }).populate('author').populate('comments')
+        }).populate('author').populate({path: 'comments', populate: {path: 'author'}})
     },
     myPosts: (req, res) => {
         Post.find({author: req.session.userid}, (err, posts) => {
@@ -138,7 +138,7 @@ module.exports = {
             } else {
                 send(res, 200, posts)
             }
-        }).populate('author').populate('comments')
+        }).populate('author').populate({path: 'comments', populate: {path: 'author'}})
     },
     addPost: (req, res) => {
         Post.create({author: req.session.userid, category: req.body.category, title: req.body.title, body: req.body.body}, (err, new_post) => {
