@@ -1,3 +1,10 @@
+/**
+ * @file Poll.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Josef Škorpík
+ * @brief Component for poll shown in PollPage.
+ */
+
 import React from "react";
 import {
   Card,
@@ -44,12 +51,11 @@ function Polls({ poll, setPolls, handleDelete }) {
     for (const opt of poll.options) {
       let i = 0;
       for (const voter of poll.votes) {
-        if (voter.voted_option == opt) {
+        if (voter.voted_option === opt) {
           i++;
         }
       }
       mySet.add({ option: opt, voted: i });
-      //console.log(opt + "voted:" + i);
     }
     arr = Array.from(mySet);
   };
@@ -104,37 +110,17 @@ function Polls({ poll, setPolls, handleDelete }) {
                 ))}
               </ToggleButtonGroup>
               {poll.options.map((opt) => {
-                let i = 0;
                 for (const voter of poll.votes) {
                   if (voter.voted_option == opt) {
-                    i++;
                   }
                 }
-                //console.log(opt + "voted:" + i);
                 help(poll);
               })}
-              {/*<Button
-                className={classes.options}
-                onClick={() => {
-                  //console.log(poll.options);
-                  for (const opt of poll.options) {
-                    let i = 0;
-                    for (const voter of poll.votes) {
-                      if (voter.voted_option == opt) {
-                        i++;
-                      }
-                    }
-                    //console.log(opt + "voted:" + i);
-                  }
-                  /*
-              for (const voter of poll.votes) {
-                console.log(voter.voted_option);
-              }*/}
             </ListItem>
             <ListItem>
               {arr.map((res) => (
                 <Button className={classes.options} disabled>
-                  {/*"option: " + res.option + " votes: " + */ res.voted}
+                  {res.voted}
                 </Button>
               ))}
             </ListItem>
@@ -142,7 +128,11 @@ function Polls({ poll, setPolls, handleDelete }) {
         </CardContent>
         <CardActions>
           <Box>
-            <Button size="large" onClick={() => handleDelete(poll._id)}>
+            <Button
+              size="large"
+              disabled={poll.author.name != localStorage.getItem("user")}
+              onClick={() => handleDelete(poll._id)}
+            >
               Smazat anketu
             </Button>
           </Box>

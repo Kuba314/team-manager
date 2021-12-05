@@ -1,3 +1,11 @@
+/**
+ * @file App.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Kozubek
+ * @author Josef Škorpík
+ * @brief Component wrapping the whole app with routers and stuff.
+ */
+
 import "./App.css";
 import AttendancePage from "./Pages/AttendancePage";
 import DiscussionPage from "./Pages/DiscussionPage";

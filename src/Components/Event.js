@@ -1,3 +1,10 @@
+/**
+ * @file Event.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Kozubek
+ * @brief Component for event which shows on AttendancePage.
+ */
+
 import React from "react";
 import { useState, useEffect } from "react";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -21,9 +28,9 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AttendanceAvatar from "./AttendanceAvatar";
-import CloseIcon from "@mui/icons-material/Close";
 import { makeStyles } from "@mui/styles";
 import EditDialogEvent from "./EditDialogEvent";
+
 const useStyles = makeStyles({
   comeBtn: {
     backgroundColor: "#6a8565",
@@ -171,13 +178,13 @@ function Event({ event, handleDelete }) {
           </List>
           <Box className={classes.dltBtn}>
             <IconButton
-              disabled={event.author.name != localStorage.getItem("user")}
+              disabled={event.author.name !== localStorage.getItem("user")}
               onClick={() => handleDelete(event._id)}
             >
               <DeleteIcon />
             </IconButton>
             <IconButton
-              disabled={event.author.name != localStorage.getItem("user")}
+              disabled={event.author.name !== localStorage.getItem("user")}
               onClick={handleClickEditOpenEvent}
             >
               <EditIcon />

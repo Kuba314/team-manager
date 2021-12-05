@@ -1,8 +1,14 @@
+/**
+ * @file Comment.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Rozek
+ * @brief A comment component showed below a post.
+ */
+
 import { Paper, Typography, Avatar, IconButton } from "@mui/material";
 import React from "react";
 import { makeStyles } from "@mui/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddDialogComment from "./AddDialogComment";
 
 const useStyles = makeStyles({
   wrapper: {

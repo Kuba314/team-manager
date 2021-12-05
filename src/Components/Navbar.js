@@ -1,3 +1,11 @@
+/**
+ * @file Navbar.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Kozubek
+ * @author Josef Škorpík
+ * @brief Dialog for adding an event.
+ */
+
 import React from "react";
 import {
   AppBar,
@@ -8,7 +16,7 @@ import {
   ToggleButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
@@ -70,9 +78,6 @@ function Navbar(logged, setLogged) {
             >
               <ToggleButton
                 className={classes.btn}
-                /* size="large"
-              edge="start"
-              color="inherit"*/
                 style={{ borderRadius: "4px", border: "0px" }}
                 size="large"
                 variant="text"
@@ -84,9 +89,6 @@ function Navbar(logged, setLogged) {
               </ToggleButton>
               <ToggleButton
                 className={classes.btn}
-                /*size="large"
-              edge="start"
-              color="inherit"*/
                 style={{ borderRadius: "4px", border: "0px" }}
                 size="large"
                 value="/discussion"
@@ -97,9 +99,6 @@ function Navbar(logged, setLogged) {
               </ToggleButton>
               <ToggleButton
                 className={classes.btn}
-                /*size="large"
-              edge="start"
-              color="inherit"*/
                 style={{ borderRadius: "4px", border: "0px" }}
                 size="large"
                 value="/poll"

@@ -1,5 +1,12 @@
+/**
+ * @file RegisterPage.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Josef Škorpík
+ * @brief Page for registration.
+ */
+
 import React from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { makeStyles } from "@mui/styles";
 
@@ -10,14 +17,30 @@ const useStyles = makeStyles({
     justifyContent: "center",
     marginTop: "1%",
   },
+  reg: {
+    marginTop: "13px",
+  },
 });
 
 function RegisterPage() {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
+  const [errUsername, setErrUsername] = useState(false);
+  const [errPassw, setErrPassw] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleRegister = () => {
+    setErrUsername(false);
+    setErrPassw(false);
+    if (username === "") {
+      setErrUsername(true);
+    }
+    if (password === "") {
+      setErrPassw(true);
+    }
+
+    if (username === "" || password === "") {
+      return;
+    }
     fetch("http://localhost:3000/register", {
       method: "POST",
       headers: {
@@ -29,8 +52,15 @@ function RegisterPage() {
   };
   return (
     <div>
+      <div className={classes.reg}>
+        <Typography align="center" variant="h5">
+          Registrace
+        </Typography>
+      </div>
       <div className={classes.addComponent}>
         <TextField
+          error={errUsername}
+          required
           InputLabelProps={{ style: { fontSize: 20 } }}
           inputProps={{ style: { fontSize: 20 } }}
           onChange={(e) => setUsername(e.target.value)}
@@ -40,21 +70,10 @@ function RegisterPage() {
           variant="outlined"
         ></TextField>
       </div>
-
       <div className={classes.addComponent}>
         <TextField
-          InputLabelProps={{ style: { fontSize: 20 } }}
-          inputProps={{ style: { fontSize: 20 } }}
-          onChange={(e) => setEmail(e.target.value)}
-          id="email"
-          label="Email"
-          type="email"
-          variant="outlined"
-        ></TextField>
-      </div>
-
-      <div className={classes.addComponent}>
-        <TextField
+          error={errPassw}
+          required
           InputLabelProps={{ style: { fontSize: 20 } }}
           inputProps={{ style: { fontSize: 20 } }}
           onChange={(e) => setPassword(e.target.value)}

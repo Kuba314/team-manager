@@ -1,5 +1,12 @@
+/**
+ * @file AddDialogEvent.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Kozubek
+ * @brief Dialog for adding an event.
+ */
+
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   TextField,
@@ -15,7 +22,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "@mui/lab/DatePicker";
 import TimePicker from "@mui/lab/TimePicker";
-import dateCreator from "../Helpers/dateCreator";
 
 import DialogTitle from "@mui/material/DialogTitle";
 

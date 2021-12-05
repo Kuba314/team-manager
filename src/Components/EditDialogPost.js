@@ -1,3 +1,10 @@
+/**
+ * @file EditDialogPost.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Rozek
+ * @brief Dialog for editing a post.
+ */
+
 import React from "react";
 import { useState } from "react";
 import {

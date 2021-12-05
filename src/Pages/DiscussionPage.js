@@ -1,3 +1,10 @@
+/**
+ * @file DiscussionPage.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Rozek
+ * @brief Page for showing posts and comments.
+ */
+
 import { Grid, Button } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -71,7 +78,7 @@ function DiscussionPage({ ondiscussion }) {
         token: localStorage.getItem("token"),
       }),
     });
-    const newPosts = posts.filter((post) => id != post._id);
+    const newPosts = posts.filter((post) => id !== post._id);
     setPosts(newPosts);
   };
 

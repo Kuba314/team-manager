@@ -1,3 +1,10 @@
+/**
+ * @file AttendancePage.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Kozubek
+ * @brief Page for showing events.
+ */
+
 import React from "react";
 import { useEffect, useState } from "react";
 import { Grid, Button } from "@mui/material";
@@ -56,7 +63,7 @@ function AttendancePage() {
         token: localStorage.getItem("token"),
       }),
     });
-    const newEvents = events.filter((event) => id != event._id);
+    const newEvents = events.filter((event) => id !== event._id);
     setEvents(newEvents);
   };
   useEffect(fetchData, []);

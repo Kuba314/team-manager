@@ -1,3 +1,10 @@
+/**
+ * @file AttendanceAvatar.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Kozubek
+ * @brief Component for showing people attending events.
+ */
+
 import { Avatar, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";

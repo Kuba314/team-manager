@@ -1,19 +1,17 @@
+/**
+ * @file AddDialogPoll.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Josef Škorpík
+ * @brief Dialog for adding a poll and options for it.
+ */
+
 import React from "react";
-import { useState, useEffect } from "react";
-import {
-  Button,
-  TextField,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from "@mui/material";
+import { useState } from "react";
+import { Button, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import dateCreator from "../Helpers/dateCreator";
 
 import DialogTitle from "@mui/material/DialogTitle";
 
@@ -34,7 +32,6 @@ function AddDialog({ open, handleClose, fetchData }) {
   const [errAnsw1, setErrAnsw1] = useState(false);
   const [errAnsw2, setErrAnsw2] = useState(false);
   const classes = useStyles();
-  let value;
   const [title, setTitle] = useState("");
   const [answ1, setAnsw1] = useState("");
   const [answ2, setAnsw2] = useState("");

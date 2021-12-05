@@ -1,3 +1,10 @@
+/**
+ * @file EventCategories.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Kozubek
+ * @brief Categories component to show different categories on AttendancePage.
+ */
+
 import React from "react";
 import { Tab, Grid, Box, Tabs } from "@mui/material";
 import { makeStyles } from "@mui/styles";

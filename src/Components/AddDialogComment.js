@@ -1,3 +1,10 @@
+/**
+ * @file AddDialogComment.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Rozek
+ * @brief Dialog for adding a comment.
+ */
+
 import React from "react";
 import {
   Dialog,
@@ -8,7 +15,6 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { makeStyles } from "@mui/styles";
 
 function AddDialogComment({ postId, open, handleClose, fetchData }) {
   const [body, setBody] = useState("");

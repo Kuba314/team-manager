@@ -1,3 +1,10 @@
+/**
+ * @file Post.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Rozek
+ * @brief Post component shown in DiscussionPage.
+ */
+
 import React from "react";
 import {
   Card,
@@ -6,14 +13,13 @@ import {
   CardActions,
   Button,
   Typography,
-  Avatar,
   Box,
   Collapse,
   IconButton,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Comment from "./Comment";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useInterval from "../Helpers/useInterval";
 import AddDialogComment from "./AddDialogComment";
 import PostAvatar from "./PostAvatar";
@@ -65,9 +71,7 @@ function Post({ post, handleDelete, fetchData }) {
     return date.toLocaleString();
   };
 
-  const [comments, setComments] = useState([]); //Fetches the posts, temporarily from fakeDB
-
-  //useInterval(fetchData, 5000);
+  useInterval(fetchData, 5000);
   return (
     <div>
       <EditDialogPost
@@ -98,7 +102,7 @@ function Post({ post, handleDelete, fetchData }) {
         <CardActions>
           <Box className={classes.leftAlign}>
             <Button
-              disabled={post.author.name != localStorage.getItem("user")}
+              disabled={post.author.name !== localStorage.getItem("user")}
               color="primary"
               variant="text"
               onClick={() => handleDelete(post._id)}
@@ -117,7 +121,7 @@ function Post({ post, handleDelete, fetchData }) {
             </Button>
             {
               <IconButton
-                disabled={post.author.name != localStorage.getItem("user")}
+                disabled={post.author.name !== localStorage.getItem("user")}
                 onClick={handleClickEditOpenComemnt}
               >
                 <EditIcon />

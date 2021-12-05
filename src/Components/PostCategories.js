@@ -1,3 +1,10 @@
+/**
+ * @file PostCategories.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Jakub Rozek
+ * @brief Categories component to show different categories on DiscussionPage.
+ */
+
 import React from "react";
 import { Tab, Grid, Box, Tabs } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -8,6 +15,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
   },
 });
+
 function PostCategories({ handleChange, selectedCategory }) {
   const classes = useStyles();
   return (

@@ -1,3 +1,11 @@
+/**
+ * @file PollPage.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Josef Škorpík
+ * @author Jakub Kozubek
+ * @brief Page for showing polls.
+ */
+
 import { Grid, Button } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -47,7 +55,7 @@ function PollPage() {
         token: localStorage.getItem("token"),
       }),
     });
-    const newPolls = polls.filter((poll) => id != poll._id);
+    const newPolls = polls.filter((poll) => id !== poll._id);
     setPolls(newPolls);
   };
 
@@ -59,13 +67,7 @@ function PollPage() {
   };
   useEffect(fetchData, []);
 
-  //useInterval(fetchData, 5000);
-
-  const [selectedCategory, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  useInterval(fetchData, 5000);
 
   return (
     <div>

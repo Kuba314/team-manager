@@ -1,6 +1,13 @@
+/**
+ * @file LoginPage.js
+ * Projekt: Implementace webové aplikace Team manager.
+ * @author Josef Škorpík
+ * @brief Page for login.
+ */
+
 import React from "react";
 import { useState } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 
@@ -11,14 +18,31 @@ const useStyles = makeStyles({
     justifyContent: "center",
     marginTop: "1%",
   },
+  log: {
+    marginTop: "13px",
+  },
 });
 
 function LoginPage({ setLogged, logged }) {
   const navigate = useNavigate();
   const classes = useStyles();
+  const [errUsername, setErrUsername] = useState(false);
+  const [errPassw, setErrPassw] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = () => {
+    setErrUsername(false);
+    setErrPassw(false);
+    if (username === "") {
+      setErrUsername(true);
+    }
+    if (password === "") {
+      setErrPassw(true);
+    }
+
+    if (username === "" || password === "") {
+      return;
+    }
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -38,8 +62,15 @@ function LoginPage({ setLogged, logged }) {
 
   return (
     <div>
+      <div className={classes.log}>
+        <Typography variant="h5" align="center">
+          Přihlášení
+        </Typography>
+      </div>
       <div className={classes.addComponent}>
         <TextField
+          required
+          error={errUsername}
           InputLabelProps={{ style: { fontSize: 20 } }}
           inputProps={{ style: { fontSize: 21 } }}
           onChange={(e) => setUsername(e.target.value)}
@@ -51,6 +82,8 @@ function LoginPage({ setLogged, logged }) {
       </div>
       <div className={classes.addComponent}>
         <TextField
+          required
+          error={errPassw}
           InputLabelProps={{ style: { fontSize: 20 } }}
           inputProps={{ style: { fontSize: 21 } }}
           onChange={(e) => setPassword(e.target.value)}
@@ -60,7 +93,6 @@ function LoginPage({ setLogged, logged }) {
           variant="outlined"
         ></TextField>
       </div>
-
       <div className={classes.addComponent}>
         <Button onClick={handleLogin} variant="outlined">
           Přihlásit se
