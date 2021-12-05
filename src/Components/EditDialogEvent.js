@@ -51,6 +51,7 @@ function EditDialogEvent({ open, handleClose, event, fetchData }) {
   const [body, setBody] = useState(event.location);
 
   const handleSubmit = () => {
+    //Edit the form, the fields will have the original data
     fetch("http://localhost:3000/editevent", {
       method: "POST",
       headers: {
@@ -74,6 +75,7 @@ function EditDialogEvent({ open, handleClose, event, fetchData }) {
         <DialogTitle>Změnit příspěvek</DialogTitle>
         <DialogContent className={classes.wrapper}>
           <div className={classes.postText}>
+            {/*Textfields in the dialog for editing*/}
             <TextField
               onChange={(e) => setTitle(e.target.value)}
               autoFocus
@@ -86,6 +88,7 @@ function EditDialogEvent({ open, handleClose, event, fetchData }) {
               variant="outlined"
             />
           </div>
+
           <TextField
             onChange={(e) => setBody(e.target.value)}
             className={classes.postText}
@@ -135,6 +138,7 @@ function EditDialogEvent({ open, handleClose, event, fetchData }) {
               renderInput={(params) => <TextField {...params} />}
             />
           </div>
+          {/* radio buttons for changing the category */}
           <FormControl className={classes.categories} component="fieldset">
             <FormLabel component="legend">Typ události</FormLabel>
             <RadioGroup

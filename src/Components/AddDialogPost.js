@@ -36,6 +36,7 @@ function AddDialog({ open, handleClose, url, id, fetchData }) {
   const classes = useStyles();
   const [category, setCategory] = useState("cat1");
   let value;
+  //reflect the selected category
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
@@ -44,6 +45,7 @@ function AddDialog({ open, handleClose, url, id, fetchData }) {
   const [errTitle, setErrTitle] = useState(false);
   const [errBody, setErrBody] = useState(false);
   const handleSubmit = (e) => {
+    //Check if the fields were filled in
     e.preventDefault();
     setErrTitle(false);
     setErrBody(false);

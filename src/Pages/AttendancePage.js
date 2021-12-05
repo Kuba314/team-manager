@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 function AttendancePage() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-
+  //add dialog open functions
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -47,13 +47,13 @@ function AttendancePage() {
     fetchData();
     setOpen(false);
   };
-  const [events, setEvents] = useState([]); //Fetches the eventss, temporarily from fakeDB
+  const [events, setEvents] = useState([]); //Fetches the events, re-renders the page when changed
   const fetchData = () => {
     fetch("http://localhost:3000/events")
       .then((res) => res.json())
       .then((data) => setEvents(data));
   };
-
+  //function for deleting the event, rerendering the page with new values
   const handleDelete = (id) => {
     fetch("http://localhost:3000/deleteevent", {
       method: "POST",
@@ -72,6 +72,7 @@ function AttendancePage() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  //Dict for handling categories
   let categories = {
     0: "practice",
     1: "tournament",

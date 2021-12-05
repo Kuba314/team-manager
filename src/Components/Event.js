@@ -56,7 +56,7 @@ function Event({ event, handleDelete }) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [events, setEvents] = useState([]);
-
+  //fetches the events from db, sets the attendees aswell
   const fetchData = () => {
     fetch("http://localhost:3000/events")
       .then((res) => res.json())
@@ -67,6 +67,8 @@ function Event({ event, handleDelete }) {
   };
 
   useEffect(fetchData, []);
+
+  //expands the atendees list, fetches the data for it
 
   const handleExpandClick = () => {
     help();
@@ -83,6 +85,7 @@ function Event({ event, handleDelete }) {
     console.log(filtered.attendees);
     console.log(attends.length);
   };
+  //function to set people attending events when the events load
   const func = (data) => {
     var filtered = data.find((ldevent) => {
       return ldevent._id === event._id;
@@ -95,6 +98,7 @@ function Event({ event, handleDelete }) {
       }
     }
   };
+  //function for leaving the event, sets the button color correctly
   const leave = (filtered) => {
     fetch("http://localhost:3000/leaveevent", {
       method: "POST",
@@ -109,6 +113,8 @@ function Event({ event, handleDelete }) {
 
     return;
   };
+  //function for joining the event, sets the button color correctly, finds the event
+  //that the user clicked to join, then makes a request to join it
   const join = () => {
     var filtered = events.find((ldevent) => {
       return ldevent._id === event._id;
@@ -130,6 +136,7 @@ function Event({ event, handleDelete }) {
       }),
     }).then(fetchData());
   };
+  //hooks for handling the dialog opening
   const [openEditEvent, setEditOpenEvent] = useState(false);
 
   const handleClickEditOpenEvent = () => {
@@ -139,6 +146,7 @@ function Event({ event, handleDelete }) {
   const handleEditCloseEvent = () => {
     setEditOpenEvent(false);
   };
+  //hook for hadnling the button color change
   const [colorCome, setColor] = useState("#6a8565");
 
   const convDate = () => {
@@ -147,6 +155,7 @@ function Event({ event, handleDelete }) {
   };
   return (
     <div>
+      {/*hidden edit dialog event which opens by a button lower in the code*/}
       <EditDialogEvent
         open={openEditEvent}
         handleClose={handleEditCloseEvent}

@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 function Post({ post, handleDelete, fetchData }) {
   const classes = useStyles();
   const [openComment, setOpenComment] = useState(false);
-
+  //opening the comment dialog
   const handleClickOpenComemnt = () => {
     setOpenComment(true);
   };
@@ -52,7 +52,7 @@ function Post({ post, handleDelete, fetchData }) {
   };
 
   const [expandedComment, setExpandedComment] = React.useState(false);
-
+  //opening the comment collapse
   const handleExpandClick = () => {
     setExpandedComment(!expandedComment);
   };
@@ -70,7 +70,7 @@ function Post({ post, handleDelete, fetchData }) {
     let date = new Date(post.created);
     return date.toLocaleString();
   };
-
+  //Periodically fetches data for comments to update
   useInterval(fetchData, 5000);
   return (
     <div>

@@ -18,6 +18,7 @@ import { useState } from "react";
 
 function AddDialogComment({ postId, open, handleClose, fetchData }) {
   const [body, setBody] = useState("");
+  //Submit the comment, fetch the data, close the dialog
   const handleSubmit = () => {
     fetch("http://localhost:3000/comment", {
       method: "POST",

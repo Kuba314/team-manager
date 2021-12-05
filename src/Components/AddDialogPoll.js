@@ -36,6 +36,7 @@ function AddDialog({ open, handleClose, fetchData }) {
   const [answ1, setAnsw1] = useState("");
   const [answ2, setAnsw2] = useState("");
   const handleSend = () => {
+    //Valide that the fields were filled in
     handleSubmit();
     setErrTitle(false);
     setErrAnsw1(false);

@@ -31,6 +31,7 @@ function LoginPage({ setLogged, logged }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleLogin = () => {
+    //Check if either of the fields were empty, turn them red
     setErrUsername(false);
     setErrPassw(false);
     if (username === "") {
@@ -43,6 +44,8 @@ function LoginPage({ setLogged, logged }) {
     if (username === "" || password === "") {
       return;
     }
+    //log in the user, get back a token, store it in localStorage, redirect the user
+    //to the discussion page
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {

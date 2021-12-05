@@ -35,6 +35,7 @@ function Navbar(logged, setLogged) {
       setSelected(newSelected);
     }
   };
+  //conditionally renders the navbar based on the user being logged in or not
   if (
     localStorage.getItem("user") === null ||
     localStorage.getItem("user") === ""

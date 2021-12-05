@@ -36,7 +36,7 @@ function PollPage() {
   const classes = useStyles(); //This enables custom css overrides
 
   const [open, setOpen] = useState(false);
-
+  //open and close the add dialog
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -45,7 +45,7 @@ function PollPage() {
     fetchData();
     setOpen(false);
   };
-
+  //delete a poll, re-render the page with new values
   const handleDelete = (id) => {
     fetch("http://localhost:3000/deletepoll", {
       method: "POST",
@@ -58,7 +58,7 @@ function PollPage() {
     const newPolls = polls.filter((poll) => id !== poll._id);
     setPolls(newPolls);
   };
-
+  //fetch the polls at the start, then with every change
   const [polls, setPolls] = useState([]);
   const fetchData = () => {
     fetch("http://localhost:3000/polls")
@@ -82,7 +82,8 @@ function PollPage() {
         </Button>
       </div>
       <div className={classes.cont}>
-        {/*Container for posts*/}
+        {/*Container for polls
+        map every poll into a poll component*/}
         <Grid container spacing={3}>
           {polls.reverse().map((poll) => (
             <Grid item key={poll._id} xs={12}>

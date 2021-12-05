@@ -53,6 +53,7 @@ function Comment({ comment, fetchData }) {
             </Typography>
             <Typography color="#EFEFEF">{comment.text}</Typography>
           </div>
+          {/*make a request to delete the comment, then fetch data and rerender*/}
           <IconButton
             className={classes.dltBtn}
             onClick={() => {

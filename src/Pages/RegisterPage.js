@@ -31,6 +31,7 @@ function RegisterPage() {
   const handleRegister = () => {
     setErrUsername(false);
     setErrPassw(false);
+    //check that the fields were not empty
     if (username === "") {
       setErrUsername(true);
     }
@@ -41,6 +42,7 @@ function RegisterPage() {
     if (username === "" || password === "") {
       return;
     }
+    //creates a user in the db
     fetch("http://localhost:3000/register", {
       method: "POST",
       headers: {

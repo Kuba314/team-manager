@@ -45,6 +45,7 @@ function AddDialogEvent({ open, handleClose, fetchData }) {
   const classes = useStyles();
   const [category, setCategory] = useState("practice");
   let value;
+  //Store the selected category
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
@@ -53,6 +54,7 @@ function AddDialogEvent({ open, handleClose, fetchData }) {
   const [errTitle, setErrTitle] = useState(false);
   const [errBody, setErrBody] = useState(false);
   const handleSubmit = (e) => {
+    //Check if the fields were filled in
     e.preventDefault();
     setErrTitle(false);
     setErrBody(false);
@@ -67,6 +69,7 @@ function AddDialogEvent({ open, handleClose, fetchData }) {
     if (title === "" || body === "") {
       return;
     }
+    //make a request to add the event
     fetch("http://localhost:3000/addevent", {
       method: "POST",
       headers: {

@@ -46,6 +46,7 @@ function Polls({ poll, setPolls, handleDelete }) {
     }
   };
   let arr = [];
+  //function for tracking how many votes each option has
   const help = (poll) => {
     let mySet = new Set();
     for (const opt of poll.options) {
@@ -78,6 +79,7 @@ function Polls({ poll, setPolls, handleDelete }) {
                 onChange={handleSelected}
                 exclusive
               >
+                {/*Renders button for each option, while allowing user to click on it to vote*/}
                 {poll.options.map((option) => (
                   <ToggleButton
                     className={classes.options}
@@ -117,6 +119,7 @@ function Polls({ poll, setPolls, handleDelete }) {
                 help(poll);
               })}
             </ListItem>
+            {/*Shows the current vote count for each option*/}
             <ListItem>
               {arr.map((res) => (
                 <Button className={classes.options} disabled>
