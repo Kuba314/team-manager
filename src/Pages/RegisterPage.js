@@ -9,6 +9,7 @@ import React from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   addComponent: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles({
 
 function RegisterPage() {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [errUsername, setErrUsername] = useState(false);
   const [errPassw, setErrPassw] = useState(false);
   const [username, setUsername] = useState("");
@@ -50,7 +52,7 @@ function RegisterPage() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({ username: username, password: password }),
-    });
+    }).then(() => navigate("/login"));
   };
   return (
     <div>

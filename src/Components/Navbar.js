@@ -2,7 +2,6 @@
  * @file Navbar.js
  * Projekt: Implementace webové aplikace Team manager.
  * @author Jakub Kozubek
- * @author Josef Škorpík
  * @brief Dialog for adding an event.
  */
 

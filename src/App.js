@@ -1,7 +1,6 @@
 /**
  * @file App.js
  * Projekt: Implementace webové aplikace Team manager.
- * @author Jakub Kozubek
  * @author Josef Škorpík
  * @brief Component wrapping the whole app with routers and stuff.
  */
@@ -52,6 +51,10 @@ function App() {
         <LocalizationProvider locale={cs} dateAdapter={AdapterDateFns}>
           <Layout logged={logged} setLogged={setLogged}>
             <Routes>
+              <Route
+                path=""
+                element={<LoginPage logged={logged} setLogged={setLogged} />}
+              />
               <Route path="discussion" element={<DiscussionPage />} />
               <Route path="attendance" element={<AttendancePage />} />
               <Route path="poll" element={<PollPage />} />

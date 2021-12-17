@@ -2,7 +2,6 @@
  * @file PollPage.js
  * Projekt: Implementace webové aplikace Team manager.
  * @author Josef Škorpík
- * @author Jakub Kozubek
  * @brief Page for showing polls.
  */
 
